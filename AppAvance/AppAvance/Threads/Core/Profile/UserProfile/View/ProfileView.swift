@@ -11,6 +11,7 @@ struct ProfileView: View {
     @State private var showEditProfile = false 
     @StateObject var viewModel: UserProfileViewModel
     @State private var showUserRelationSheet = false
+    let url = URL(string: "https://www.instagram.com/")!
     
     init(user: User) {
         self._viewModel = StateObject(wrappedValue: UserProfileViewModel(user: user))
@@ -57,15 +58,30 @@ struct ProfileView: View {
                     
                     CircularProfileImageView(user: user, size: .medium)
                 }
-                
-                Button {
-                    handleFollowTapped()
-                } label: {
-                    Text(isFollowed ? "Siguiendo" : "Seguir")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                HStack {
+                    //Boton para compartir el perfil
+                    ShareLink(item: url, label:
+                                {
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(.white)
+                            .frame(width: 35, height: 32)
+                            .background(.black)
+                            .cornerRadius(8)
+                    })
+
+
+                    //Boton para agregar y quitar de favoritos
+                    Button {
+                        handleFollowTapped()
+                    } label: {
+                        HStack{
+                            Text(isFollowed ? "En Favoritos" : "Agregar a Favoritos")
+                            Image(systemName: (isFollowed ? "heart.fill" : "heart" ))
+                                .foregroundColor(isFollowed ? Color.red : Color.white)
+                            
+                        }
                         .foregroundColor(isFollowed ? Color.theme.primaryText : Color.theme.primaryBackground)
-                        .frame(width: 352, height: 32)
+                        .frame(width: 320, height: 32)
                         .background(isFollowed ? Color.theme.primaryBackground : Color.theme.primaryText)
                         .cornerRadius(8)
                         .overlay {
@@ -73,8 +89,11 @@ struct ProfileView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color(.systemGray4), lineWidth: 1)
                             }
+                            
                         }
+                    }
                 }
+                
                 
                 UserContentListView(
                     selectedFilter: $selectedThreadFilter,
@@ -89,7 +108,7 @@ struct ProfileView: View {
         .padding(.horizontal)
     }
     
-    func handleFollowTapped() {
+     func handleFollowTapped() {
         Task {
             if isFollowed {
                 try await viewModel.unfollow()
