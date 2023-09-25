@@ -1,0 +1,6 @@
+# npm
+Backend/node_modules
+Backend/package-lock.json
+Backend/*.log
+Backend/*.gz
+Backend/*.env
