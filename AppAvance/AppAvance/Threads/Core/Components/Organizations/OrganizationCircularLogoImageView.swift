@@ -29,18 +29,18 @@ enum OrganizationLogoImageSize {
 }
 
 struct OrganizationCircularLogoImageView: View {
-    var organization: Organization?
+    var logoUrl: String?
     let size: OrganizationLogoImageSize
     
     var body: some View {
-        if let imageUrl = organization?.logoUrl {
+        if let imageUrl = logoUrl {
             KFImage(URL(string: imageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.dimension, height: size.dimension)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "person.circle.fill")
+            Image(systemName: "star")
                 .resizable()
                 .frame(width: size.dimension, height: size.dimension)
                 .foregroundColor(Color(.systemGray4))
@@ -50,6 +50,6 @@ struct OrganizationCircularLogoImageView: View {
 
 struct OrganizationCircularLogoImageView_Previews: PreviewProvider {
     static var previews: some View {
-        OrganizationCircularLogoImageView(organization: dev.organization, size: .xxSmall)
+        OrganizationCircularLogoImageView(logoUrl: dev.organization.logoUrl, size: .xxSmall)
     }
 }

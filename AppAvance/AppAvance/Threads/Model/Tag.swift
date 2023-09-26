@@ -6,3 +6,11 @@
 //
 
 import Foundation
+struct Tag: Identifiable, Hashable {
+    let id: String
+    let name: String
+    let description: String
+    let createdAt: Date
+    let updatedAt: Date
+    let updatedBy: String
+}

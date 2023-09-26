@@ -13,9 +13,9 @@ struct ExploreView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                UserListView(viewModel: viewModel)
-                    .navigationDestination(for: User.self) { user in
-                        ProfileView(user: user)
+                OrganizationListView(viewModel: viewModel)
+                    .navigationDestination(for: Organization.self) { organization in
+                        OrganizationProfileView(organization: organization)
                     }
             }
             .overlay {
