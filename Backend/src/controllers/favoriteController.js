@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const Favorite = require("../models/favoriteModel");
 
 exports.createFavorite = async (req, res) => {
@@ -19,10 +20,17 @@ exports.createFavorite = async (req, res) => {
   }
 };
 
-// Get all favorites
+// Get all favorites by user ID with JWT Token
 exports.getAllFavorites = async (req, res) => {
   try {
-    const favorites = await Favorite.find();
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(
+      token,
+      "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
+    );
+    const userId = decoded.sub._id;
+
+    const favorites = await Favorite.find({ userId });
 
     res.status(200).json(favorites);
   } catch (error) {
@@ -35,7 +43,14 @@ exports.getAllFavorites = async (req, res) => {
 exports.getFavoriteById = async (req, res) => {
   const { id } = req.params;
   try {
-    const favorite = await Favorite.findById(id);
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(
+      token,
+      "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
+    );
+    const userId = decoded.sub._id;
+
+    const favorite = await Favorite.findOne({ _id: id, userId });
 
     if (!favorite) {
       return res.status(404).json({ error: "Favorite not found" });
@@ -52,8 +67,14 @@ exports.getFavoriteById = async (req, res) => {
 exports.deleteFavorite = async (req, res) => {
   try {
     const { id } = req.params;
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(
+      token,
+      "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
+    );
+    const userId = decoded.sub._id;
 
-    const deletedfavorite = await Favorite.findByIdAndRemove(id);
+    const deletedfavorite = await Favorite.findByIdAndRemove({_id: id, userId});
 
     if (!deletedfavorite) {
       return res.status(404).json({ error: "Favorite not found" });

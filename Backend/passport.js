@@ -2,7 +2,7 @@ const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const passport = require("passport");
 const User = require("./src/models/userModel"); // Import your User model
-const secretKey = "your-secret-key"; // Replace with your secret key
+const secretKey = "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"; // Replace with your secret key
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();

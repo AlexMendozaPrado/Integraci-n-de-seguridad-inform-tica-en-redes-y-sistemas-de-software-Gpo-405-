@@ -59,7 +59,10 @@ exports.createOrganization = async (req, res) => {
 // Get all organizations
 exports.getAllOrganizations = async (req, res) => {
     try {
-        const organizations = await Organization.find();
+        // filters
+        const { tags } = req.query;
+
+        const organizations = await Organization.find({ tags: { $in: tags } });
 
         return res.status(200).json(organizations);
     } catch (error) {

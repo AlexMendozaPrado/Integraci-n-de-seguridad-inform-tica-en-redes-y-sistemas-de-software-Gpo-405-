@@ -13,6 +13,13 @@
  *     tags: [Reviews]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: organizationId
+ *         in: query
+ *         required: true
+ *         description: ID of the organization to retrieve
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successful response

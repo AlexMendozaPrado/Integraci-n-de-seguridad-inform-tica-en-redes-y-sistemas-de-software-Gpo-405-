@@ -24,7 +24,9 @@ exports.createReview = async (req, res) => {
 // Get all reviews
 exports.getAllReviews = async (req, res) => {
   try {
-    const Reviews = await Review.find();
+    const { organizationId } = req.query;
+
+    const Reviews = await Review.find({ organizationId });
 
     res.status(200).json(Reviews);
   } catch (error) {

@@ -1,7 +1,7 @@
 const User = require("../models/userModel"); // Import your User model
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const secretKey = "your-secret-key"; // Replace with your own secret key
+const secretKey = "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"; // Replace with your own secret key
 
 exports.login = async (req, res) => {
   try {

@@ -1,4 +1,6 @@
+const jwt = require("jsonwebtoken");
 const Post = require("../models/postModel");
+const Favorite = require("../models/favoriteModel");
 
 exports.createPost = async (req, res) => {
   try {
@@ -48,7 +50,20 @@ exports.updatePost = async (req, res) => {
 // Get all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const Posts = await Post.find();
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(
+      token,
+      "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
+    );
+    const userId = decoded.sub._id;
+
+    const favorites = await Favorite.find({ userId });
+
+    const favoritesIds = favorites.map((favorite) => favorite.organizationId);
+
+    const Posts = await Post.find({
+      organizationId: { $in: favoritesIds },
+    });
 
     res.status(200).json(Posts);
   } catch (error) {

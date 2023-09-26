@@ -13,6 +13,15 @@
  *     tags: [Organizations]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: tags
+ *         in: query
+ *         required: true
+ *         description: Tags of the organizations to retrieve
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
  *     responses:
  *       200:
  *         description: Successful response
