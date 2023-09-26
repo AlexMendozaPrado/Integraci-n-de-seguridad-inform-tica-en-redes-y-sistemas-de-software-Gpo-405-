@@ -60,11 +60,24 @@ exports.createOrganization = async (req, res) => {
 exports.getAllOrganizations = async (req, res) => {
     try {
         // filters
-        const { tags } = req.query;
+        const { tags, useUserTags } = req.query;
 
-        const organizations = await Organization.find({ tags: { $in: tags } });
+        if (useUserTags === true || useUserTags === "true") {
+            const user = await User.findById(req.user._id);
+            const organizations = await Organization.find({ tags: { $in: user.tags } });
 
-        return res.status(200).json(organizations);
+            return res.status(200).json(organizations);
+        } else {
+            if (tags && tags.length > 0 && tags[0].length > 0) {
+                const organizations = await Organization.find({ tags: { $in: tags } });
+
+                return res.status(200).json(organizations);
+            } else {
+                const organizations = await Organization.find();
+
+                return res.status(200).json(organizations);
+            }
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Could not fetch organizations" });

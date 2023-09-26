@@ -16,12 +16,18 @@
  *     parameters:
  *       - name: tags
  *         in: query
- *         required: true
+ *         required: false
  *         description: Tags of the organizations to retrieve
  *         schema:
  *           type: array
  *           items:
  *             type: string
+ *       - name: useUserTags
+ *         in: query
+ *         required: true
+ *         description: Whether to use the user's tags or not
+ *         schema:
+ *           type: boolean
  *     responses:
  *       200:
  *         description: Successful response
