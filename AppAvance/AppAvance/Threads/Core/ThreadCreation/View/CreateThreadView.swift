@@ -25,7 +25,7 @@ struct CreateThreadView: View {
                         Text(user?.username ?? "")
                             .fontWeight(.semibold)
                         
-                        TextField("Start a thread...", text: $viewModel.caption, axis: .vertical)
+                        TextField("Inicia a Publicar...", text: $viewModel.caption, axis: .vertical)
                     }
                     .font(.footnote)
                     
@@ -72,7 +72,7 @@ struct CreateThreadView: View {
                 }
             }
             .onDisappear { tabIndex = 0 }
-            .navigationTitle("Nueva  publicacion")
+            .navigationTitle("Nueva publicacion")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
