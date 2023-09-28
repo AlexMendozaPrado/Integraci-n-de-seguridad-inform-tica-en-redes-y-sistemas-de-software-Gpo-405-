@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
                     phoneNumber: user.phoneNumber,
                     role: user.role
                 }
-            }, secretKey, { expiresIn: "24h" });
+            }, secretKey);
 
             return res.json({ token });
         } else {

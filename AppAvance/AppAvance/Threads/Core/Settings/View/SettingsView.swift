@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @AppStorage("token") var token: String = ""
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             ForEach(SettingsOptions.allCases) { option in
@@ -22,7 +24,7 @@ struct SettingsView: View {
                 Divider()
                 
                 Button("Log Out") {
-                    AuthService.shared.signOut()
+                    token = ""
                 }
                 .font(.subheadline)
                 .listRowSeparator(.hidden)

@@ -74,8 +74,8 @@ struct ThreadCell: View {
                         .font(.footnote)
                         .multilineTextAlignment(.leading)
                     
-                    ContentActionButtonView(viewModel: ContentActionButtonViewModel(contentType: config))
-                        .padding(.top, 12)
+                    /* ContentActionButtonView(viewModel: ContentActionButtonViewModel(contentType: config))
+                        .padding(.top, 12) */
                 }
             }
             .sheet(isPresented: $showThreadActionSheet) {

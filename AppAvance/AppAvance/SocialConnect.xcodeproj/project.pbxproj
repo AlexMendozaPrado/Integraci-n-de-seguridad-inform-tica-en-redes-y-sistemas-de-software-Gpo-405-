@@ -88,6 +88,7 @@
 		2BACD4B22A83D98D00452A2D /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD4B12A83D98D00452A2D /* AuthenticationFormProtocol.swift */; };
 		3D8BF5772AC2530500269CB2 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8BF5762AC2530500269CB2 /* Post.swift */; };
 		3D8BF57A2AC254CF00269CB2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3D8BF5792AC254CF00269CB2 /* Alamofire */; };
+		3DAB7F402AC6405A00702324 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB7F3F2AC6405A00702324 /* LoginInfo.swift */; };
 		3DBD17322AC256150021CA6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DBD17312AC256140021CA6B /* GoogleService-Info.plist */; };
 		3DBD17362AC34BF00021CA6B /* MongoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBD17352AC34BF00021CA6B /* MongoConstants.swift */; };
 		3DBD17392AC34DD90021CA6B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3DBD17382AC34DD90021CA6B /* SwiftyJSON */; };
@@ -176,6 +177,7 @@
 		2BACD4AE2A83CC4C00452A2D /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		2BACD4B12A83D98D00452A2D /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 		3D8BF5762AC2530500269CB2 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		3DAB7F3F2AC6405A00702324 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		3DBD17312AC256140021CA6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "Threads/Utils/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3DBD17352AC34BF00021CA6B /* MongoConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoConstants.swift; sourceTree = "<group>"; };
 		3DBD173A2AC34DFD0021CA6B /* Organization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				3D8BF5762AC2530500269CB2 /* Post.swift */,
 				3DBD173A2AC34DFD0021CA6B /* Organization.swift */,
 				3DBD174D2AC3740E0021CA6B /* Tag.swift */,
+				3DAB7F3F2AC6405A00702324 /* LoginInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1032,6 +1035,7 @@
 				2B4621032A5F6B8300D4482C /* CircularProfileImageView.swift in Sources */,
 				2B5481C92A660415003058C4 /* ProfileHeaderView.swift in Sources */,
 				2B5616542A60FD26006B80D5 /* EditProfileView.swift in Sources */,
+				3DAB7F402AC6405A00702324 /* LoginInfo.swift in Sources */,
 				2B556E052A66FD7700727069 /* SettingsView.swift in Sources */,
 				3DBD17422AC35B2D0021CA6B /* OrganizationCircularLogoImageView.swift in Sources */,
 				2B56164C2A60DE63006B80D5 /* CreateThreadView.swift in Sources */,

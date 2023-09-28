@@ -12,6 +12,8 @@ struct OrganizationProfileView: View {
     @State private var showEditProfile = false
     @StateObject var viewModel: OrganizationProfileViewModel
     @State private var showUserRelationSheet = false
+    @State var starClicked = false
+    
     let url = URL(string: "https://www.instagram.com/")!
     
     init(organization: Organization) {
@@ -53,6 +55,22 @@ struct OrganizationProfileView: View {
                             .background(.black)
                             .cornerRadius(8)
                     })
+                    
+                    Button {
+                        starClicked.toggle()
+                    } label: {
+                        ZStack{
+                            Color.black
+                                .frame(width: 35, height: 32)
+                                .cornerRadius(8)
+                            
+                            Image(systemName: starClicked ? "star.fill" : "star")
+                                .foregroundColor(starClicked ? .yellow : .white)
+                                .frame(width: 33, height: 30)
+                                .background(starClicked ? .white : .black)
+                                .cornerRadius(8)
+                        }
+                    }
                 }
                 
                 

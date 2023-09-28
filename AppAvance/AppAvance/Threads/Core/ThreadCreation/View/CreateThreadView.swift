@@ -25,7 +25,7 @@ struct CreateThreadView: View {
                         Text(user?.username ?? "")
                             .fontWeight(.semibold)
                         
-                        TextField("Start a thread...", text: $viewModel.caption, axis: .vertical)
+                        TextField("Ingrese texto de publicación...", text: $viewModel.caption, axis: .vertical)
                     }
                     .font(.footnote)
                     

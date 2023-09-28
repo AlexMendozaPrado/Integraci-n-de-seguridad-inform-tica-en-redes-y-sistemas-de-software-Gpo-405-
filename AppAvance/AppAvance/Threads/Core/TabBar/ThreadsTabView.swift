@@ -46,7 +46,7 @@ CreateThreadDummyView(tabIndex: $selectedTab)
 
 ActivityView()
     .tabItem {
-        Image(systemName: selectedTab == 3 ? "heart.fill" : "heart")
+        Image(systemName: selectedTab == 3 ? "star.fill" : "star")
         .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)
     }
     .onAppear { selectedTab = 3 }

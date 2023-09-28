@@ -5,9 +5,14 @@
 //
 
 import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 struct LoginView: View {
-    @StateObject var viewModel = LoginViewModel()
+    @AppStorage("token") var token: String = ""
+    @State var loginInfo: LoginInfo = LoginInfo(email: "", password: "")
+    @State var isAuthenticating: Bool = false
+    @State var showAlert: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -26,18 +31,18 @@ struct LoginView: View {
                 
                 // text fields
                 VStack {
-                    TextField("Ingresa tu correo", text: $viewModel.email)
+                    TextField("Ingresa tu correo", text: $loginInfo.email)
                         .autocapitalization(.none)
                         .modifier(ThreadsTextFieldModifier())
                     
-                    SecureField("Ingresa tu contrase;a", text: $viewModel.password)
+                    SecureField("Ingresa tu contraseña", text: $loginInfo.password)
                         .modifier(ThreadsTextFieldModifier())
                 }
                 
                 NavigationLink {
                     ForgotPasswordView()
                 } label: {
-                    Text("Olvidaste tu constrase;a?")
+                    Text("Olvidaste tu constraseña?")
                         .font(.footnote)
                         .fontWeight(.semibold)
                         .padding(.top)
@@ -47,20 +52,20 @@ struct LoginView: View {
                 }
                 
                 Button {
-                    Task { try await viewModel.login() }
+                    Task { login() }
                 } label: {
-                    Text(viewModel.isAuthenticating ? "" : "Login")
+                    Text(isAuthenticating ? "" : "Login")
                         .foregroundColor(Color.theme.primaryBackground)
                         .modifier(ThreadsButtonModifier())
                         .overlay {
-                            if viewModel.isAuthenticating {
+                            if isAuthenticating {
                                 ProgressView()
                                     .tint(Color.theme.primaryBackground)
                             }
                         }
                 }
-                .disabled(viewModel.isAuthenticating || !formIsValid)
-                .opacity(formIsValid ? 1 : 0.7)
+                .disabled(isAuthenticating || loginInfo.password.isEmpty || loginInfo.email.isEmpty)
+                .opacity(isAuthenticating || loginInfo.password.isEmpty || loginInfo.email.isEmpty ? 1 : 0.7)
                 
                 .padding(.vertical)
                 
@@ -84,23 +89,30 @@ struct LoginView: View {
                 .padding(.vertical, 16)
 
             }
-            .alert(isPresented: $viewModel.showAlert) {
+            .alert(isPresented: $showAlert) {
                 Alert(title: Text("Error"),
-                      message: Text(viewModel.authError?.description ?? ""))
+                      message: Text("Usuario o contraseña incorrecta"))
             }
+        }
+    }
+    
+    func login() {        
+        AF.request("\(mongoBaseUrl)/auth/login", method: .post, parameters: loginInfo, encoder: .json).responseData { data in
+            isAuthenticating = true
+            
+            let json = try! JSON(data: data.data!)
+            if json["token"].exists() {
+                token = json["token"].stringValue
+            } else {
+                showAlert = true
+            }
+            
+            isAuthenticating = false
         }
     }
 }
 
-// MARK: - Form Validation
 
-extension LoginView: AuthenticationFormProtocol {
-    var formIsValid: Bool {
-        return !viewModel.email.isEmpty
-        && viewModel.email.contains("@")
-        && !viewModel.password.isEmpty
-    }
-}
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {

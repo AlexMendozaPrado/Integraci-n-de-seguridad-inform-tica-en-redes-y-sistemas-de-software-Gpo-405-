@@ -7,11 +7,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("token") var token: String = ""
     @StateObject var viewModel = ContentViewModel()
     
     var body: some View {
         Group {
-            if viewModel.userSession == nil {
+            if token.isEmpty {
                 LoginView()
             } else {
                 ThreadsTabView()
