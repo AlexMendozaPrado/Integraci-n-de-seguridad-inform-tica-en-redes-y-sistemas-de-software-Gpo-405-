@@ -38,9 +38,11 @@ ExploreView()
 // **Línea 21:** Crea la pestaña Crear hilo. La pestaña Crear hilo permite al usuario crear un nuevo hilo.
 
 CreateThreadDummyView(tabIndex: $selectedTab)
-    .tabItem { Image(systemName: "plus") }
-    .onAppear { selectedTab = 2 }
-    .tag(2)
+    .tabItem { Image(systemName: selectedTab == 2 ? "plus.app.fill" : "plus.app")
+            .environment(\.symbolVariants, selectedTab == 2 ? .fill : .none)
+        }
+        .onAppear { selectedTab = 2 }
+        .tag(2)
 
 // **Línea 27:** Crea la pestaña Actividad. La pestaña Actividad muestra una lista de actividades del usuario, como los hilos en los que ha participado y las publicaciones que ha realizado.
 

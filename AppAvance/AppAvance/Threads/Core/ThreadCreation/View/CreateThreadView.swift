@@ -56,11 +56,13 @@ struct CreateThreadView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Publicar") {
+                    Button {
                         Task {
                             try await viewModel.uploadThread()
                             dismiss()
                         }
+                    } label: {
+                        Label("Publicar", systemImage: "paperplane.fill")
                     }
                     .opacity(viewModel.caption.isEmpty ? 0.5 : 1.0)
                     .disabled(viewModel.caption.isEmpty)
@@ -75,6 +77,7 @@ struct CreateThreadView: View {
         }
     }
 }
+
 
 struct CreateThreadView_Previews: PreviewProvider {
     static var previews: some View {

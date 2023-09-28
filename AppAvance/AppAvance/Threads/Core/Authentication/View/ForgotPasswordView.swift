@@ -14,10 +14,8 @@ struct ForgotPasswordView: View {
             Spacer()
             
             // Se muestra el logo de la aplicación
-            Image("threads-app-icon")
-                .renderingMode(.template)
+            Image("Yconnect")
                 .resizable()
-                .colorMultiply(Color.theme.primaryText)
                 .scaledToFit()
                 .frame(width: 120, height: 120)
                 .padding()
