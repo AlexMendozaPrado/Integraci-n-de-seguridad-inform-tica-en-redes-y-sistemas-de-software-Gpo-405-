@@ -71,8 +71,6 @@
  *             properties:
  *               organizationId:
  *                 type: string
- *               userId:
- *                 type: string
  *     responses:
  *       200:
  *         description: Favorite created successfully

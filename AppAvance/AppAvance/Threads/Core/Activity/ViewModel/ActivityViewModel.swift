@@ -4,84 +4,67 @@
 //
 
 import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 @MainActor
 class ActivityViewModel: ObservableObject {
-    // MARK: - Published Properties
-
-    @Published var notifications = [ActivityModel]() // This published property stores the list of notifications.
-    @Published var isLoading = false // This published property stores the loading state of the view model.
-    @Published var selectedFilter: ActivityFilterViewModel = .all { // This published property stores the selected filter.
-        didSet {
-            // Whenever the selected filter changes, the list of notifications is updated to reflect the selected filter.
-            switch selectedFilter {
-            case .all:
-                self.notifications = temp
-            case .replies:
-                temp = notifications
-                self.notifications = notifications.filter({ $0.type == .reply })
-            }
-        }
-    }
-
-    // MARK: - Private Properties
-
-    private var temp = [ActivityModel]() // This private property stores the temporary list of notifications. This property is used to store the original list of notifications before the selected filter is changed.
-
-    // MARK: - Initialization
+    @AppStorage("token") var token: String = ""
+    @Published var organizations = [Organization]()
+    @Published var isLoading = false
 
     init() {
-        // When the view model is initialized, the list of notifications is fetched from the backend.
-        Task { try await updateNotifications() }
+        Task { try await fetchOrganizations() }
     }
 
-    // MARK: - Private Methods
-
-    private func fetchNotificationData() async throws {
-        // Sets the loading state to true.
-        self.isLoading = true
-
-        // Fetches the list of notifications from the backend.
-        self.notifications = try await ActivityService.fetchUserActivity()
-
-        // Sets the loading state to false.
-        self.isLoading = false
-    }
-
-    private func updateNotifications() async throws {
-        // Fetches the notification data from the backend.
-        try await fetchNotificationData()
-
-        // Creates a throwing task group that will update the metadata for each notification.
-        await withThrowingTaskGroup(of: Void.self, body: { group in
-            for notification in notifications {
-                // Adds a task to the task group that will update the metadata for the notification.
-                group.addTask { try await self.updateNotificationMetadata(notification: notification) }
+    private func fetchOrganizations() async throws {
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
+        
+        AF.request("\(mongoBaseUrl)/favorites", method: .get, headers: HTTPHeaders(newHeaders)).responseData { data in
+            let json = try! JSON(data: data.data!)
+            self.organizations.removeAll()
+            for organization in json {
+                let socialNetworksArray: [Organization.SocialNetwork] = organization.1["socialNetworks"].arrayValue.map { socialNetworkObject in
+                    let name = socialNetworkObject["name"].stringValue
+                    let url = socialNetworkObject["url"].stringValue
+                    return Organization.SocialNetwork(name: name, url: url)
+                }
+                
+                let tagsArray: [String] = organization.1["tags"].arrayValue.map { value in
+                    return value.stringValue
+                }
+                
+                let org = Organization(
+                    id: organization.1["_id"].stringValue,
+                    userId: organization.1["userId"].stringValue,
+                    name: organization.1["name"].stringValue,
+                    address: Organization.Address(
+                        street1: organization.1["address"]["street1"].stringValue,
+                        street2: organization.1["address"]["street2"].stringValue,
+                        city: organization.1["address"]["city"].stringValue,
+                        state: organization.1["address"]["state"].stringValue,
+                        zipCode: organization.1["address"]["zipCode"].stringValue,
+                        country: organization.1["address"]["country"].stringValue
+                    ),
+                    contact: Organization.Contact(
+                        phoneNumber: organization.1["contact"]["phoneNumber"].stringValue,
+                        email: organization.1["contact"]["email"].stringValue
+                    ),
+                    description: organization.1["description"].stringValue,
+                    socialNetworks: socialNetworksArray,
+                    logoUrl: organization.1["logoUrl"].stringValue,
+                    tags: tagsArray,
+                    createdAt: Date(),
+                    updatedAt: Date()
+                )
+                
+                self.organizations.append(org)
             }
-        })
-    }
-
-    private func updateNotificationMetadata(notification: ActivityModel) async throws {
-        // Finds the index of the notification in the list of notifications.
-        guard let indexOfNotification = notifications.firstIndex(where: { $0.id == notification.id }) else { return }
-
-        // Fetches the user associated with the notification.
-        async let notificationUser = try await UserService.fetchUser(withUid: notification.senderUid)
-        var user = try await notificationUser
-
-        // If the notification type is follow, the follow status of the user is also fetched.
-        if notification.type == .follow {
-            async let isFollowed = await UserService.checkIfUserIsFollowedWithUid(notification.senderUid)
-            user.isFollowed = await isFollowed
-        }
-
-        // Updates the notification with the updated user information.
-        self.notifications[indexOfNotification].user = user
-
-        // If the notification is associated with a thread, the thread is also fetched.
-        if let threadId = notification.threadId {
-            async let threadSnapshot = await FirestoreConstants.ThreadsCollection.document(threadId).getDocument()
-            self.notifications[indexOfNotification].thread = try? await threadSnapshot.data(as: Thread.self)
+            
+            print(self.organizations.count)
         }
     }
+    
+    
 }

@@ -1,13 +1,16 @@
 const jwt = require("jsonwebtoken");
 const Favorite = require("../models/favoriteModel");
+const User = require("../models/userModel");
 
 exports.createFavorite = async (req, res) => {
   try {
-    const { organizationId, userId } = req.body;
+    const { organizationId } = req.body;
+    const user = await User.findById(req.user._id);
+    console.log(req.user)
 
     const newFavorite = new Favorite({
       organizationId,
-      userId,
+      userId: user._id,
       createdAt: new Date(),
     });
 
