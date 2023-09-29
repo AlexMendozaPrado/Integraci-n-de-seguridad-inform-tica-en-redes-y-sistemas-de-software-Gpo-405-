@@ -36,15 +36,15 @@ var title: String {
 
 switch self {
 case .unfollow:
-return "Unfollow"
+return "Dejar de Seguir"
 case .mute:
-return "Mute"
+return "Silenciar"
 case .hide:
-return "Hide"
+return "Esconder"
 case .report:
-return "Report"
+return "Reportar"
 case .block:
-return "Block"
+return "Bloquear"
 }
 }
 }

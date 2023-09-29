@@ -89,15 +89,15 @@ struct ThreadCell: View {
         .onChange(of: selectedThreadAction, perform: { newValue in
             switch newValue {
             case .block:
-                print("DEBUG: Block user here..")
+                print("DEBUG: Bloquear usuario..")
             case .hide:
-                print("DEBUG: Hide thread here..")
+                print("DEBUG: Esconder post..")
             case .mute:
-                print("DEBUG: Mute threads here..")
+                print("DEBUG: Silenciar post..")
             case .unfollow:
-                print("DEBUG: Unfollow here..")
+                print("DEBUG: Unfollow aquí..")
             case .report:
-                print("DEBUG: Report thread here..")
+                print("DEBUG: Reportar post..")
             case .none:
                 break
             }

@@ -54,7 +54,7 @@ struct EditProfileView: View {
                         Text("Intereses ")
                             .fontWeight(.semibold)
                         
-                        TextField("Enter you bio..", text: $viewModel.bio, axis: .vertical)
+                        TextField("Escribe tus intereses..", text: $viewModel.bio, axis: .vertical)
                     }
                     .font(.footnote)
                     
@@ -70,18 +70,14 @@ struct EditProfileView: View {
                     
                     Divider()
                     
-                    Toggle("Private profile", isOn: $isPrivateProfile)
-                        .font(.footnote)
-                    
-                    Divider()
                     
                 }
                 
-                .navigationTitle("Edit Profile")
+                .navigationTitle("Editar Profile")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        Button("Cancel") {
+                        Button("Cancelar") {
                             dismiss()
                         }
                         .font(.subheadline)
@@ -89,7 +85,7 @@ struct EditProfileView: View {
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Done") {
+                        Button("Listo") {
                             Task {
                                 try await viewModel.updateUserData()
                                 dismiss()
