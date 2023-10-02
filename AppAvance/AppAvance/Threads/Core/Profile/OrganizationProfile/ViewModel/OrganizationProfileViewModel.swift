@@ -5,29 +5,51 @@
 //  Created by Patricio Villarreal Welsh on 26/09/23.
 //
 
-import Foundation
+import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 @MainActor
 class OrganizationProfileViewModel: ObservableObject {
+    @AppStorage("token") var token: String = ""
     @Published var organization: Organization
     
     init(organization: Organization) {
         self.organization = organization
     }
-}
-
-// MARK: - Following
-
-extension OrganizationProfileViewModel {
-    func follow() async throws {
+    
+    func markAsFavorite(organizationId: String) {
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
         
+        let parameters: [String: String] = [
+            "organizationId": organizationId
+        ]
+        
+        AF.request("\(mongoBaseUrl)/favorites", method: .post, parameters: JSON(parameters), headers: HTTPHeaders(mongoHeaders)).responseData { response in
+            switch response.result {
+                case .success(let data):
+                    let json = try? JSON(data: data)
+                    print(json as Any)
+                case .failure(let error):
+                    print("Request Error: \(error)")
+            }
+        }
     }
     
-    func unfollow() async throws {
+    func unmarkAsFavorite(organizationId: String) {
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
+        let url = "\(mongoBaseUrl)/favorites/\(organizationId)"
         
-    }
-    
-    func checkIfUserIsFollowed() async -> Bool {
-        return false
+        AF.request(url, method: .delete, encoding: URLEncoding.default, headers: HTTPHeaders(mongoHeaders)).responseData { response in
+            switch response.result {
+            case .success(let data):
+                let json = try? JSON(data: data)
+                print(json as Any)
+            case .failure(let error):
+                print("Request Error: \(error)")
+            }
+        }
     }
 }

@@ -13,10 +13,23 @@ struct ActivityView: View {
             VStack {
                 ScrollView {
                     LazyVStack(spacing: 16) {
-                        ForEach(viewModel.organizations) { org in
-                            NavigationLink(value: org.id) {
-                                ActivityRowView(model: org)
+                        ForEach(viewModel.favorites) { favorite in
+                            HStack {
+                                NavigationLink(value: favorite.favoriteId) {
+                                    ActivityRowView(favorite: favorite)
+                                }
+                                
+                                Button {
+                                    Task { try await viewModel.removeFavorite(favoriteId: favorite.favoriteId) }
+                                } label: {
+                                    Image(systemName: "star.fill")
+                                        .foregroundColor(.yellow)
+                                }
+                                .padding()
+                                
+                                Spacer()
                             }
+                            Divider()
                         }
                     }
                 }

@@ -58,6 +58,11 @@ struct OrganizationProfileView: View {
                     
                     Button {
                         starClicked.toggle()
+                        if !starClicked {
+                            viewModel.markAsFavorite(organizationId: organization.id)
+                        } else {
+                            viewModel.unmarkAsFavorite(organizationId: organization.id)
+                        }
                     } label: {
                         ZStack{
                             Color.black

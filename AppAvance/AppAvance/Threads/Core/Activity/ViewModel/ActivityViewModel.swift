@@ -10,61 +10,68 @@ import SwiftyJSON
 @MainActor
 class ActivityViewModel: ObservableObject {
     @AppStorage("token") var token: String = ""
-    @Published var organizations = [Organization]()
+    @Published var favorites = [Favorite]()
     @Published var isLoading = false
 
     init() {
-        Task { try await fetchOrganizations() }
+        Task { try await fetchFavorites() }
     }
 
-    private func fetchOrganizations() async throws {
+    func fetchFavorites() async throws {
         var newHeaders = mongoHeaders
         newHeaders["Authorization"] = "Bearer \(token)"
         
         AF.request("\(mongoBaseUrl)/favorites", method: .get, headers: HTTPHeaders(newHeaders)).responseData { data in
             let json = try! JSON(data: data.data!)
-            self.organizations.removeAll()
-            for organization in json {
-                let socialNetworksArray: [Organization.SocialNetwork] = organization.1["socialNetworks"].arrayValue.map { socialNetworkObject in
+            self.favorites.removeAll()
+            for favorite in json {
+                let socialNetworksArray: [Favorite.SocialNetwork] = favorite.1["socialNetworks"].arrayValue.map { socialNetworkObject in
                     let name = socialNetworkObject["name"].stringValue
                     let url = socialNetworkObject["url"].stringValue
-                    return Organization.SocialNetwork(name: name, url: url)
+                    return Favorite.SocialNetwork(name: name, url: url)
                 }
                 
-                let tagsArray: [String] = organization.1["tags"].arrayValue.map { value in
+                let tagsArray: [String] = favorite.1["tags"].arrayValue.map { value in
                     return value.stringValue
                 }
                 
-                let org = Organization(
-                    id: organization.1["_id"].stringValue,
-                    userId: organization.1["userId"].stringValue,
-                    name: organization.1["name"].stringValue,
-                    address: Organization.Address(
-                        street1: organization.1["address"]["street1"].stringValue,
-                        street2: organization.1["address"]["street2"].stringValue,
-                        city: organization.1["address"]["city"].stringValue,
-                        state: organization.1["address"]["state"].stringValue,
-                        zipCode: organization.1["address"]["zipCode"].stringValue,
-                        country: organization.1["address"]["country"].stringValue
+                let org = Favorite(
+                    favoriteId: favorite.1["favoriteId"].stringValue,
+                    id: favorite.1["_id"].stringValue,
+                    userId: favorite.1["userId"].stringValue,
+                    name: favorite.1["name"].stringValue,
+                    address: Favorite.Address(
+                        street1: favorite.1["address"]["street1"].stringValue,
+                        street2: favorite.1["address"]["street2"].stringValue,
+                        city: favorite.1["address"]["city"].stringValue,
+                        state: favorite.1["address"]["state"].stringValue,
+                        zipCode: favorite.1["address"]["zipCode"].stringValue,
+                        country: favorite.1["address"]["country"].stringValue
                     ),
-                    contact: Organization.Contact(
-                        phoneNumber: organization.1["contact"]["phoneNumber"].stringValue,
-                        email: organization.1["contact"]["email"].stringValue
+                    contact: Favorite.Contact(
+                        phoneNumber: favorite.1["contact"]["phoneNumber"].stringValue,
+                        email: favorite.1["contact"]["email"].stringValue
                     ),
-                    description: organization.1["description"].stringValue,
+                    description: favorite.1["description"].stringValue,
                     socialNetworks: socialNetworksArray,
-                    logoUrl: organization.1["logoUrl"].stringValue,
+                    logoUrl: favorite.1["logoUrl"].stringValue,
                     tags: tagsArray,
                     createdAt: Date(),
                     updatedAt: Date()
                 )
                 
-                self.organizations.append(org)
+                self.favorites.append(org)
             }
-            
-            print(self.organizations.count)
         }
     }
     
-    
+    func removeFavorite(favoriteId: String) async throws {
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
+        
+        _ = AF.request("\(mongoBaseUrl)/favorites/\(favoriteId)", method: .delete, headers: HTTPHeaders(newHeaders)).responseData { data in
+            /* let json = try! JSON(data: data.data!) */
+            Task { try await self.fetchFavorites() }
+        }
+    }
 }

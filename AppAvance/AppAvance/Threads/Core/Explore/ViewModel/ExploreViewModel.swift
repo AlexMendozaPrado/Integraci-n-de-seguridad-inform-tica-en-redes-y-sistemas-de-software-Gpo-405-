@@ -11,6 +11,7 @@ import SwiftyJSON
 
 @MainActor
 class ExploreViewModel: ObservableObject {
+    @AppStorage("token") var token: String = ""
     @Published var users = [User]()
     @Published var organizations = [Organization]()
     @Published var tags = [Tag]()
@@ -23,6 +24,9 @@ class ExploreViewModel: ObservableObject {
     }
     
     func fetchOrganizations(tags: [String]?) throws {
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
+        
         var parameters: [String: Any] = [
             "useUserTags": false
         ]
@@ -33,8 +37,8 @@ class ExploreViewModel: ObservableObject {
                 "tags": tags ?? [""]
             ]
         }
-
-        AF.request("\(mongoBaseUrl)/organizations", method: .get, parameters: parameters, headers: HTTPHeaders(mongoHeaders)).responseData { data in
+        
+        AF.request("\(mongoBaseUrl)/organizations", method: .get, parameters: parameters, headers: HTTPHeaders(newHeaders)).responseData { data in
             let json = try! JSON(data: data.data!)
             self.organizations.removeAll()
             for organization in json {
@@ -78,7 +82,10 @@ class ExploreViewModel: ObservableObject {
     }
     
     func fetchTags() throws {
-        AF.request("\(mongoBaseUrl)/tags", method: .get, headers: HTTPHeaders(mongoHeaders)).responseData { data in
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
+        
+        AF.request("\(mongoBaseUrl)/tags", method: .get, headers: HTTPHeaders(newHeaders)).responseData { data in
             let json = try! JSON(data: data.data!)
             for tag in json {
                 let newTag = Tag(
