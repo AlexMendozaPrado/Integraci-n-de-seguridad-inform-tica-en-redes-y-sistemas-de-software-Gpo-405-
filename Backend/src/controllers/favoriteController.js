@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
 const Favorite = require("../models/favoriteModel");
 const User = require("../models/userModel");
+const Organization = require("../models/organizationModel");
 
 exports.createFavorite = async (req, res) => {
   try {
     const { organizationId } = req.body;
     const user = await User.findById(req.user._id);
-    console.log(req.user)
 
     const newFavorite = new Favorite({
       organizationId,
@@ -35,7 +35,16 @@ exports.getAllFavorites = async (req, res) => {
 
     const favorites = await Favorite.find({ userId });
 
-    res.status(200).json(favorites);
+    const organizations = await Promise.all(
+      favorites.map(async (favorite) => {
+        const organization = await Organization.findById(
+          favorite.organizationId
+        );
+        return organization;
+      })
+    );
+
+    res.status(200).json(organizations);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not fetch favorites" });
@@ -55,11 +64,13 @@ exports.getFavoriteById = async (req, res) => {
 
     const favorite = await Favorite.findOne({ _id: id, userId });
 
-    if (!favorite) {
-      return res.status(404).json({ error: "Favorite not found" });
+    const organization = await Organization.findById(favorite.organizationId);
+
+    if (!organization || !favorite) {
+      return res.status(404).json({ error: "Favorite or organization could not be found" });
     }
 
-    res.status(200).json(favorite);
+    res.status(200).json(organization);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not fetch favorite" });
