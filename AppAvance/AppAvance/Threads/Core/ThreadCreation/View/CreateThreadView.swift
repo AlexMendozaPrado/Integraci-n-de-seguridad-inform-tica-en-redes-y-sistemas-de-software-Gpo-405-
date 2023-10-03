@@ -10,6 +10,9 @@ struct CreateThreadView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = CreateThreadViewModel()
     @Binding var tabIndex: Int
+    @State private var videoURL: String = ""
+    @State private var imageURL: String = ""
+    @State private var description: String = ""
     
     private var user: User? {
         return UserService.shared.currentUser
@@ -26,6 +29,17 @@ struct CreateThreadView: View {
                             .fontWeight(.semibold)
                         
                         TextField("Inicia a Publicar...", text: $viewModel.caption, axis: .vertical)
+                        
+                        TextField("URL del video de YouTube", text: $videoURL)
+                            .font(.footnote)
+                        
+                        if !videoURL.isEmpty {
+                            WebView(urlString: videoURL)
+                                .frame(height: 200) // Set the height as needed
+                        }
+                        
+                        TextField("Descripción", text: $description)
+                            .font(.footnote)
                     }
                     .font(.footnote)
                     
