@@ -46,8 +46,21 @@ struct ThreadDetailsView: View {
                     Text(thread.caption)
                         .font(.subheadline)
                     
+                    // Desplegar el video de Youtube
+                    if let videoURL = thread.videoURL, !videoURL.isEmpty {
+                        WebView(urlString: videoURL)
+                            .frame(height: 200) // Set the height as needed
+                    }
+                    
+                    // Desplegar la descripción
+                    if let videoDescription = thread.videoDescription, !videoDescription.isEmpty {
+                        Text(videoDescription)
+                            .font(.footnote)
+                    }
+                    
                     ContentActionButtonView(viewModel: ContentActionButtonViewModel(contentType: .thread(thread)))
                 }
+                
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             

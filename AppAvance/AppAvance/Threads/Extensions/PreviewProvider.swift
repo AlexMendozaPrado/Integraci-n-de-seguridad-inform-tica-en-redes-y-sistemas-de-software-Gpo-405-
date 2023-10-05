@@ -19,6 +19,8 @@ class DeveloperPreview {
     var thread = Thread(
         ownerUid: NSUUID().uuidString,
         caption: "Here's to the crazy ones. The misfits. The rebels",
+        videoDescription: "Description",
+        videoURL: "https://www.youtube.com/watch?v=rTqrpOLbhHQ",
         timestamp: Timestamp(),
         likes: 247,
         imageUrl: "lewis-hamilton",
