@@ -5,6 +5,7 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct ThreadDetailsView: View {
     @State private var showReplySheet = false
@@ -49,7 +50,7 @@ struct ThreadDetailsView: View {
                     // Desplegar el video de Youtube
                     if let videoURL = thread.videoURL, !videoURL.isEmpty {
                         WebView(urlString: videoURL)
-                            .frame(height: 200) // Set the height as needed
+                            .frame(height: 200)
                     }
                     
                     // Desplegar la descripción

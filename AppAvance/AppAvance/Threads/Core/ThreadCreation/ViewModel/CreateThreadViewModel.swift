@@ -10,6 +10,8 @@ import Firebase
 class CreateThreadViewModel: ObservableObject {
     
     @Published var caption = ""
+    @Published var videoDescription = ""
+    @Published var videoURL = ""
     
     func uploadThread() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
