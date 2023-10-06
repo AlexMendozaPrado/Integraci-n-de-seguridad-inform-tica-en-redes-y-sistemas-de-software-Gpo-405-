@@ -15,6 +15,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpecs = require("./swagger");
 const passport = require("./passport");
 const cors = require("cors");
+const multer = require("multer");
 
 const app = express();
 const port = process.env.PORT || 3000;

@@ -65,21 +65,16 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:  # Use multipart/form-data for file uploads
  *           schema:
  *             type: object
  *             properties:
- *               organizationId:
+ *               file:
  *                 type: string
- *               name:
- *                 type: string
- *               content:
- *                 type: string
- *               type:
- *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
- *         description: file created successfully
+ *         description: File created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -113,14 +108,19 @@
  */
 
 const express = require("express");
+const os = require("os");
 const router = express.Router();
+const multer = require("multer");
 const fileController = require("../controllers/fileController");
 const passport = require("passport");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Create a new file
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  upload.single("file"),
   fileController.createFile
 );
 

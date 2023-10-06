@@ -1,15 +1,38 @@
+const jwt = require("jsonwebtoken");
 const File = require("../models/fileModel");
+const Organization = require("../models/organizationModel");
 
 exports.createFile = async (req, res) => {
   try {
-    const { organizationId, name, content } = req.body;
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(
+      token,
+      "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
+    );
+
+    const userId = decoded.sub._id;
+
+    const organizationFound = await Organization.findOne({ userId });
+
+    if (!organizationFound) {
+      return res.status(404).json({ error: "Organization not found" });
+    }
+
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const fileContentBase64 = file.buffer.toString("base64");
 
     const newFile = new File({
-        organizationId,
-        name,
-        content,
-        size: content.length,
-        createdAt: new Date(),
+      organizationId: organizationFound._id,
+      name: req.file.originalname,
+      content: fileContentBase64,
+      size: req.file.size,
+      type: req.file.mimetype,
+      createdAt: new Date(),
     });
 
     const savedFile = await newFile.save();
