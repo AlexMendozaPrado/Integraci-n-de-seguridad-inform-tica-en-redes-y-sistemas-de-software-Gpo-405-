@@ -55,10 +55,10 @@ class UserContentListViewModel: ObservableObject {
     }
     
     func noContentText(filter: ProfileThreadFilterViewModel) -> String {
-        let name = user.isCurrentUser ? "You" : user.username
-        let nextWord = user.isCurrentUser ? "haven't" : "hasn't"
-        let contentType = filter == .threads ? "threads" : "replies"
+        let name = user.isCurrentUser ? "No" : user.username
+        let nextWord = user.isCurrentUser ? "has" : "has"
+        let contentType = filter == .threads ? "publicación" : "respuesta"
         
-        return "\(name) \(nextWord) posted any \(contentType) yet."
+        return "\(name) \(nextWord) publicado una \(contentType) aún."
     }
 }

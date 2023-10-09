@@ -10,6 +10,9 @@ struct CreateThreadView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = CreateThreadViewModel()
     @Binding var tabIndex: Int
+    @State private var videoURL: String = ""
+    @State private var imageURL: String = ""
+    @State private var description: String = ""
     
     private var user: User? {
         return UserService.shared.currentUser
@@ -25,7 +28,22 @@ struct CreateThreadView: View {
                         Text(user?.username ?? "")
                             .fontWeight(.semibold)
                         
+<<<<<<< HEAD
                         TextField("Ingrese texto de publicación...", text: $viewModel.caption, axis: .vertical)
+=======
+                        TextField("Inicia a Publicar...", text: $viewModel.caption, axis: .vertical)
+                        
+                        TextField("URL del video de YouTube", text: $videoURL)
+                            .font(.footnote)
+                        
+                        if !videoURL.isEmpty {
+                            WebView(urlString: videoURL)
+                                .frame(height: 200) // Set the height as needed
+                        }
+                        
+                        TextField("Descripción", text: $description)
+                            .font(.footnote)
+>>>>>>> origin/UI-Tweaks
                     }
                     .font(.footnote)
                     
@@ -56,11 +74,13 @@ struct CreateThreadView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Publicar") {
+                    Button {
                         Task {
                             try await viewModel.uploadThread()
                             dismiss()
                         }
+                    } label: {
+                        Label("Publicar", systemImage: "paperplane.fill")
                     }
                     .opacity(viewModel.caption.isEmpty ? 0.5 : 1.0)
                     .disabled(viewModel.caption.isEmpty)
@@ -70,11 +90,12 @@ struct CreateThreadView: View {
                 }
             }
             .onDisappear { tabIndex = 0 }
-            .navigationTitle("Nueva  publicacion")
+            .navigationTitle("Nueva publicacion")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
+
 
 struct CreateThreadView_Previews: PreviewProvider {
     static var previews: some View {

@@ -1,12 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "Yconnect.png",
+      "filename" : "1600w-_Tcjok-d9b4.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "threads-app-icon.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -18,5 +17,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

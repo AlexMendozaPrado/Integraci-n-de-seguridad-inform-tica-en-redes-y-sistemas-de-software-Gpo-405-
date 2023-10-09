@@ -21,10 +21,10 @@ struct LoginView: View {
                 Spacer()
                 
                 // logo image
-                Image("Yconnect")
-                    .renderingMode(.template)
+                Image("threads-app-icon")
+                    //.renderingMode(.template)
                     .resizable()
-                    .colorMultiply(Color.theme.primaryText)
+                    //.colorMultiply(Color.theme.primaryText)
                     .scaledToFit()
                     .frame(width: 120, height: 120)
                     .padding()
