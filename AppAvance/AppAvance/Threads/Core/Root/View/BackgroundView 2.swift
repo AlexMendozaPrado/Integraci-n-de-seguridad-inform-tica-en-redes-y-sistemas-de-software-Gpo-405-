@@ -4,7 +4,6 @@
 //
 //  Created by Cesar Hdz on 05/10/23.
 //
-import SwiftUI
 
 struct BackgroundView: View {
     var body: some View {

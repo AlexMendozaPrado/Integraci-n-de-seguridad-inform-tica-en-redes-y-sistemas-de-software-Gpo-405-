@@ -13,42 +13,38 @@ struct CreateThreadView: View {
     @State private var videoURL: String = ""
     @State private var imageURL: String = ""
     @State private var description: String = ""
-    
+
     private var user: User? {
         return UserService.shared.currentUser
     }
-    
+
     var body: some View {
         NavigationStack {
             VStack {
                 HStack(alignment: .top) {
                     CircularProfileImageView(user: user, size: .small)
-                    
+
                     VStack(alignment: .leading, spacing: 4) {
                         Text(user?.username ?? "")
                             .fontWeight(.semibold)
-                        
-<<<<<<< HEAD
-                        TextField("Ingrese texto de publicación...", text: $viewModel.caption, axis: .vertical)
-=======
+
                         TextField("Inicia a Publicar...", text: $viewModel.caption, axis: .vertical)
-                        
+
                         TextField("URL del video de YouTube", text: $videoURL)
                             .font(.footnote)
-                        
+
                         if !videoURL.isEmpty {
                             WebView(urlString: videoURL)
                                 .frame(height: 200) // Set the height as needed
                         }
-                        
+
                         TextField("Descripción", text: $description)
                             .font(.footnote)
->>>>>>> origin/UI-Tweaks
                     }
                     .font(.footnote)
-                    
+
                     Spacer()
-                    
+
                     if !viewModel.caption.isEmpty {
                         Button {
                             viewModel.caption = ""
@@ -60,7 +56,7 @@ struct CreateThreadView: View {
                         }
                     }
                 }
-                
+
                 Spacer()
             }
             .padding()
@@ -72,7 +68,7 @@ struct CreateThreadView: View {
                     .font(.subheadline)
                     .foregroundStyle(Color.theme.primaryText)
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         Task {

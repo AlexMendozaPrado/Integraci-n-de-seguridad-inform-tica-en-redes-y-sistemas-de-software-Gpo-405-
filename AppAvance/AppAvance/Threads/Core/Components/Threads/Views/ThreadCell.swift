@@ -86,22 +86,6 @@ struct ThreadCell: View {
 
             Divider()
         }
-        .onChange(of: selectedThreadAction, perform: { newValue in
-            switch newValue {
-            case .block:
-                print("DEBUG: Bloquear usuario..")
-            case .hide:
-                print("DEBUG: Esconder post..")
-            case .mute:
-                print("DEBUG: Silenciar post..")
-            case .unfollow:
-                print("DEBUG: Unfollow aquí..")
-            case .report:
-                print("DEBUG: Reportar post..")
-            case .none:
-                break
-            }
-        })
         .foregroundColor(Color.theme.primaryText)
     }
 }
