@@ -32,6 +32,8 @@ class DeveloperPreview {
         )
     )
     
+    var post = Post(id: NSUUID().uuidString, organizationId: "test", title: "Test post title", postType: "Test post type", content: "ñalksjdfñlaskjdfñlkasjdfñlkjsadl jsañldk jsaldkfjsahfaskdjf lñksjfl sajdf ñasj fñ jsdlfk jasdkf jñalsdfj ", fileResults: ["test1", "test2"], createdAt: Date.now)
+    
     var user = User(
         fullname: "Daniel Ricciardo",
         email: "daniel@gmail.com",

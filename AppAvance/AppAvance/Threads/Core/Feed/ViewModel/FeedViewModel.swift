@@ -4,56 +4,48 @@
 //
 //
 
-import Foundation
-import Firebase
+import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 @MainActor
 class FeedViewModel: ObservableObject {
-    @Published var threads = [Thread]()
+    @AppStorage("token") var token: String = ""
+    @Published var posts = [Post]()
     @Published var isLoading = false
-    
+
     init() {
-        Task { try await fetchThreads() }
+        Task { await fetchPosts() }
     }
-    
-    private func fetchThreadIDs() async -> [String] {
-        guard let uid = Auth.auth().currentUser?.uid else { return [] }
+
+    func fetchPosts() async {
         isLoading = true
-        
-        let snapshot = try? await FirestoreConstants
-            .UserCollection
-            .document(uid)
-            .collection("user-feed")
-            .getDocuments()
-        
-        return snapshot?.documents.map({ $0.documentID }) ?? []
-    }
-    
-    func fetchThreads() async throws {
-        let threadIDs = await fetchThreadIDs()
+        var newHeaders = mongoHeaders
+        newHeaders["Authorization"] = "Bearer \(token)"
 
-        try await withThrowingTaskGroup(of: Thread.self, body: { group in
-            var threads = [Thread]()
-
-            for id in threadIDs {
-                group.addTask { return try await ThreadService.fetchThread(threadId: id) }
+        AF.request("\(mongoBaseUrl)/posts", method: .get, headers: HTTPHeaders(newHeaders)).responseData { response in
+            switch response.result {
+            case .success(let data):
+                let json = try? JSON(data: data)
+                let posts = json?["data"].arrayValue.map { data in
+                    Post(
+                        id: data["_id"].stringValue,
+                        organizationId: data["organizationId"].stringValue,
+                        title: data["title"].stringValue,
+                        postType: data["postType"].stringValue,
+                        content: data["content"].stringValue,
+                        fileResults: data["fileResults"].arrayValue.map { data in
+                            data.stringValue
+                        },
+                        createdAt: Date.now
+                    )
+                }
+                self.posts = posts ?? []
+                self.isLoading = false
+                print(self.posts)
+            case .failure(let error):
+                print("Request Error: \(error)")
             }
-
-            for try await thread in group {
-                threads.append(try await fetchThreadUserData(thread: thread))
-            }
-
-            self.threads = threads.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-            isLoading = false
-        })
-    }
-    
-    private func fetchThreadUserData(thread: Thread) async throws -> Thread {
-        var result = thread
-    
-        async let user = try await UserService.fetchUser(withUid: thread.ownerUid)
-        result.user = try await user
-        
-        return result
+        }
     }
 }

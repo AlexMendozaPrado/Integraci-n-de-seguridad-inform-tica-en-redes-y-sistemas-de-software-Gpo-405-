@@ -58,19 +58,17 @@
  * @swagger
  * /posts:
  *   post:
- *     summary: Create a new post
+ *     summary: Create a new post with files
  *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               organizationId:
- *                 type: string
  *               title:
  *                 type: string
  *               postType:
@@ -81,6 +79,7 @@
  *                 type: array
  *                 items:
  *                   type: string
+ *                   format: binary
  *     responses:
  *       200:
  *         description: Post created successfully
@@ -115,6 +114,7 @@
  *                 type: array
  *                 items:
  *                   type: string
+ *                   format: binary
  *     responses:
  *       200:
  *         description: Post created successfully
@@ -151,14 +151,18 @@
  */
 
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const postController = require("../controllers/postController");
 const passport = require("passport");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Create a new post
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  upload.array("files"),
   postController.createPost
 );
 

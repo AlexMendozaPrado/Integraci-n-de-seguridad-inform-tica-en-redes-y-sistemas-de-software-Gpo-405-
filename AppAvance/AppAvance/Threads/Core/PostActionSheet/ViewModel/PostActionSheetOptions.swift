@@ -6,3 +6,20 @@
 //
 
 import Foundation
+
+enum PostActionSheetOptions {
+    case unfavorite
+    case hide
+    case report
+    
+    var title: String {
+        switch self {
+        case .unfavorite:
+            return "Unfollow"
+        case .hide:
+            return "Mute"
+        case .report:
+            return "Hide"
+        }
+    }
+}
