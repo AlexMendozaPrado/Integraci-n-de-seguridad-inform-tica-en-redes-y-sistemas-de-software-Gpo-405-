@@ -110,6 +110,8 @@
  *             properties:
  *               name:
  *                 type: string
+ *               userName:
+ *                 type: string
  *               description:
  *                 type: string
  *               password:
@@ -120,6 +122,10 @@
  *                 $ref: '#/components/schemas/Address'
  *               contact:
  *                 $ref: '#/components/schemas/Contact'
+ *               rfc:
+ *                 type: string
+ *               schedule:
+ *                 type: string
  *               socialNetworks:
  *                 type: array
  *                 items:

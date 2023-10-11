@@ -11,11 +11,14 @@ exports.createOrganization = async (req, res) => {
 
         const {
             name,
+            userName,
             description,
             password,
             logoUrl,
             address,
             contact,
+            rfc,
+            schedule,
             socialNetworks,
             tags,
             role
@@ -37,9 +40,12 @@ exports.createOrganization = async (req, res) => {
         const newOrganization = new Organization({
             userId: savedUser['_id'],
             name,
+            userName,
             address,
             contact,
             description,
+            rfc,
+            schedule,
             socialNetworks,
             logoUrl,
             tags,
