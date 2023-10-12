@@ -18,7 +18,7 @@ struct ActivityView: View {
                                 NavigationLink(value: favorite.favoriteId) {
                                     ActivityRowView(favorite: favorite)
                                 }
-                                
+
                                 Button {
                                     Task { try await viewModel.removeFavorite(favoriteId: favorite.favoriteId) }
                                 } label: {
@@ -26,7 +26,7 @@ struct ActivityView: View {
                                         .foregroundColor(.yellow)
                                 }
                                 .padding()
-                                
+
                                 Spacer()
                             }
                             Divider()

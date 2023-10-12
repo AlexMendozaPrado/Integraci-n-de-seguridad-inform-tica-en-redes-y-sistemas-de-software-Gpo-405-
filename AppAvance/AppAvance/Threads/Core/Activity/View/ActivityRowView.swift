@@ -24,7 +24,7 @@ struct ActivityRowView: View {
                                 .font(.title2)
                                 .bold()
                                 .foregroundColor(Color.theme.primaryText)
-                            
+
                             Text(favorite.description ?? "No description for this organization")
                                 .font(.footnote)
                                 .foregroundColor(.gray)

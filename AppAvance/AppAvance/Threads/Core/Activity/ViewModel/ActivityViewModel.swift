@@ -20,7 +20,7 @@ class ActivityViewModel: ObservableObject {
     func fetchFavorites() async throws {
         var newHeaders = mongoHeaders
         newHeaders["Authorization"] = "Bearer \(token)"
-        
+
         AF.request("\(mongoBaseUrl)/favorites", method: .get, headers: HTTPHeaders(newHeaders)).responseData { data in
             let json = try! JSON(data: data.data!)
             self.favorites.removeAll()
@@ -30,11 +30,11 @@ class ActivityViewModel: ObservableObject {
                     let url = socialNetworkObject["url"].stringValue
                     return Favorite.SocialNetwork(name: name, url: url)
                 }
-                
+
                 let tagsArray: [String] = favorite.1["tags"].arrayValue.map { value in
                     return value.stringValue
                 }
-                
+
                 let org = Favorite(
                     favoriteId: favorite.1["favoriteId"].stringValue,
                     id: favorite.1["_id"].stringValue,
@@ -59,19 +59,21 @@ class ActivityViewModel: ObservableObject {
                     createdAt: Date(),
                     updatedAt: Date()
                 )
-                
+
                 self.favorites.append(org)
             }
         }
     }
-    
+
     func removeFavorite(favoriteId: String) async throws {
         var newHeaders = mongoHeaders
         newHeaders["Authorization"] = "Bearer \(token)"
-        
+
         _ = AF.request("\(mongoBaseUrl)/favorites/\(favoriteId)", method: .delete, headers: HTTPHeaders(newHeaders)).responseData { data in
             /* let json = try! JSON(data: data.data!) */
             Task { try await self.fetchFavorites() }
         }
     }
+
+
 }
