@@ -6,7 +6,7 @@ const postSchema = new mongoose.Schema({
   title: String,
   postType: mongoose.Schema.Types.ObjectId,
   content: String,
-  filesIds: [mongoose.Schema.Types.ObjectId],
+  fileUrls: [String],
   createdAt: Date,
 });
 

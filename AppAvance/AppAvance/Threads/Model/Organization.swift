@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Organization: Identifiable, Hashable {
-    struct Address: Hashable {
+struct Organization: Identifiable, Codable, Hashable {
+    struct Address: Hashable, Codable {
         let street1: String
         let street2: String
         let city: String
@@ -17,12 +17,12 @@ struct Organization: Identifiable, Hashable {
         let country: String
     }
     
-    struct Contact: Hashable {
+    struct Contact: Hashable, Codable {
         let phoneNumber: String
         let email: String
     }
     
-    struct SocialNetwork: Hashable {
+    struct SocialNetwork: Hashable, Codable {
         let name: String
         let url: String
     }
@@ -30,11 +30,16 @@ struct Organization: Identifiable, Hashable {
     let id: String
     let userId: String
     let name: String
+    let userName: String?
+    let rfc: String?
+    let schedule: String?
     let address: Address
     let contact: Contact
     let description: String?
     let socialNetworks: [SocialNetwork]
     let logoUrl: String?
+    let videoUrl: String?
+    let bannerUrl: String
     let tags: [String]
     let createdAt: Date
     let updatedAt: Date

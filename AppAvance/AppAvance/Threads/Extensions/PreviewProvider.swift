@@ -34,7 +34,42 @@ class DeveloperPreview {
         )
     )
     
-    var post = Post(id: NSUUID().uuidString, organizationId: "test", title: "Test post title", postType: "Test post type", content: "ñalksjdfñlaskjdfñlkasjdfñlkjsadl jsañldk jsaldkfjsahfaskdjf lñksjfl sajdf ñasj fñ jsdlfk jasdkf jñalsdfj ", fileResults: ["test1", "test2"], createdAt: Date.now)
+    var post = Post(
+        id: NSUUID().uuidString,
+        organization: Organization(
+            id: NSUUID().uuidString,
+            userId: "6511244a9559b458b7518a51",
+            name: "test name",
+            userName: "test userName",
+            rfc: "ASDF8245QFH",
+            schedule: "9am-5pm",
+            address: Organization.Address(
+                street1: "test",
+                street2: "test",
+                city: "test",
+                state: "test",
+                zipCode: "test",
+                country: "mexico"
+            ),
+            contact: Organization.Contact(
+                phoneNumber: "test",
+                email: "test"
+            ),
+            description: "test",
+            socialNetworks: [Organization.SocialNetwork(name: "Facebook", url: "www.facebook.com")],
+            logoUrl: "https://gmvykon.com/wp-content/uploads/2021/05/Frisa-logo-400x400-1.jpg",
+            videoUrl: "https://www.youtube.com/watch?v=SoJ-L9peEIQ",
+            bannerUrl: "https://drive.google.com/uc?export=view&id=1wC7mtwNGiWVO24ciX3DQmI0lTS6QZiPn",
+            tags: ["6510b9fb078006769df6cb0c"],
+            createdAt: Date.now,
+            updatedAt: Date.now
+        ),
+        title: "Test post title",
+        postType: "Test post type",
+        content: "ñalksjdfñlaskjdfñlkasjdfñlkjsadl jsañldk jsaldkfjsahfaskdjf lñksjfl sajdf ñasj fñ jsdlfk jasdkf jñalsdfj ",
+        filesIds: ["test1", "test2"],
+        createdAt: Date.now
+    )
     
     var user = User(
         fullname: "Daniel Ricciardo",
@@ -48,6 +83,9 @@ class DeveloperPreview {
         id: "6511244b9559b458b7518a53",
         userId: "test2",
         name: "Frisa",
+        userName: "Frisa",
+        rfc: "ASDFKASD72752H",
+        schedule: "9am-5pm",
         address: Organization.Address(
             street1: "street1",
             street2: "street2",
@@ -66,6 +104,8 @@ class DeveloperPreview {
             url: "www.instagram.com"
         )],
         logoUrl: "https://static.guiaongs.org/wp-content/uploads/2015/09/so%C3%B1ar-despierto-360x336.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=SoJ-L9peEIQ",
+        bannerUrl: "https://drive.google.com/uc?export=view&id=1wC7mtwNGiWVO24ciX3DQmI0lTS6QZiPn",
         tags: ["6510b9fb078006769df6cb0c"],
         createdAt: Date(),
         updatedAt: Date()

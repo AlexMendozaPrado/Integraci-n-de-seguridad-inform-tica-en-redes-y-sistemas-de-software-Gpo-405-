@@ -24,7 +24,7 @@ struct PostCell: View {
     private var user: String? {
         switch config {
         case .post(let post):
-            return post.organizationId
+            return post.organization.logoUrl
         }
     }
         

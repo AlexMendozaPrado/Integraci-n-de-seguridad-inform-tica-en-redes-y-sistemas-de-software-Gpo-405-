@@ -20,33 +20,14 @@ exports.createPost = async (req, res) => {
       return res.status(404).json({ error: "Organization not found" });
     }
 
-    const { title, postType, content } = req.body;
-    const files = req.files;
-
-    const filePromises = files.map(async (file) => {
-      const fileContentBase64 = file.buffer.toString("base64");
-
-      const newFile = new File({
-        organizationId: organizationFound._id,
-        name: file.originalname,
-        content: fileContentBase64,
-        size: file.size,
-        type: file.mimetype,
-        createdAt: new Date(),
-      });
-
-      const savedFile = await newFile.save();
-      return savedFile._id;
-    });
-
-    const filesIds = await Promise.all(filePromises);
+    const { title, postType, content, fileUrls } = req.body;
 
     const newPost = new Post({
       organizationId: organizationFound._id,
       title,
       postType,
       content,
-      filesIds,
+      fileUrls,
       createdAt: new Date(),
     });
 

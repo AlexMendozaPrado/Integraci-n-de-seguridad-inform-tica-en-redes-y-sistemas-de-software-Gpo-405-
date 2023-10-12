@@ -47,7 +47,9 @@ exports.createFile = async (req, res) => {
 // Get all Files
 exports.getAllFiles = async (req, res) => {
   try {
-    const Files = await File.find();
+    const { organizationId } = req.query;
+
+    const Files = await File.find({ organizationId });
 
     res.status(200).json(Files);
   } catch (error) {

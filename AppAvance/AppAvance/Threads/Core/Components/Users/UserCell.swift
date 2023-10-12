@@ -1,7 +1,8 @@
 //
 //  UserCell.swift
-//  Threads
+//  SocialConnect
 //
+//  Created by Patricio Villarreal Welsh on 11/10/23.
 //
 
 import SwiftUI
@@ -22,7 +23,7 @@ struct UserCell: View {
                     Text(user.username)
                         .bold()
                     
-                    Text(user.fullname)                    
+                    Text(user.fullname)
                 }
                 .font(.footnote)
                 

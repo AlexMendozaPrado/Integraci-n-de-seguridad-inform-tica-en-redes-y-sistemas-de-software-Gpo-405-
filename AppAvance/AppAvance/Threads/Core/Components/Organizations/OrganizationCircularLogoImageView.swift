@@ -33,14 +33,14 @@ struct OrganizationCircularLogoImageView: View {
     let size: OrganizationLogoImageSize
     
     var body: some View {
-        if let imageUrl = logoUrl {
+        if let imageUrl = logoUrl, !imageUrl.isEmpty {
             KFImage(URL(string: imageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(width: size.dimension, height: size.dimension)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "star")
+            Image(systemName: "person.fill")
                 .resizable()
                 .frame(width: size.dimension, height: size.dimension)
                 .foregroundColor(Color(.systemGray4))

@@ -118,6 +118,10 @@
  *                 type: string
  *               logoUrl:
  *                 type: string
+ *               bannerUrl:
+ *                 type: string
+ *               videoUrl:
+ *                 type: string
  *               address:
  *                 $ref: '#/components/schemas/Address'
  *               contact:
