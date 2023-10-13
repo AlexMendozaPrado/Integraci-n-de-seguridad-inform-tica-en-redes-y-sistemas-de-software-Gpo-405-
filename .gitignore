@@ -5,17 +5,28 @@ Backend/*.log
 Backend/*.gz
 Backend/*.env
 
+# OS X Finder
 AppAvance/.DS_Store
-AppAvance/*.swp
-AppAvance/*~.nib
-AppAvance/build/
-AppAvance/*.pbxuser
-AppAvance/*.perspective
-AppAvance/*.perspectivev3
+
+# Xcode per-user config
+AppAvance/*.mode1
 AppAvance/*.mode1v3
 AppAvance/*.mode2v3
-AppAvance/*.xcuserdata
+AppAvance/*.perspective
+AppAvance/*.perspectivev3
+AppAvance/*.pbxuser
+AppAvance/*.xcworkspace
 AppAvance/xcuserdata
-AppAvance/*.xccheckout
-AppAvance/*.moved-aside
-AppAvance/AppAvance/SocialConnect.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad/*.xcuserstate
+
+# Build products
+AppAvance/build/
+AppAvance/*.o
+AppAvance/*.LinkFileList
+AppAvance/*.hmap
+
+# Automatic backup files
+AppAvance/*~.nib/
+AppAvance/*.swp
+AppAvance/*~
+AppAvance/*.dat
+AppAvance/*.dep
