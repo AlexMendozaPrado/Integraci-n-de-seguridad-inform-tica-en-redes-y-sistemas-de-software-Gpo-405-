@@ -8,7 +8,6 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("token") var token: String = ""
-    @StateObject var viewModel = ContentViewModel()
     
     var body: some View {
         Group {

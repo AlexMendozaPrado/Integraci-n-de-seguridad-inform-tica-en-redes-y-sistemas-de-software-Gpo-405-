@@ -9,7 +9,6 @@ import SwiftUI
 import Kingfisher
 
 struct OrganizationProfileView: View {
-    @State private var selectedThreadFilter: ProfileThreadFilterViewModel = .threads
     @State private var showEditProfile = false
     @StateObject var viewModel: OrganizationProfileViewModel
     @State private var showUserRelationSheet = false

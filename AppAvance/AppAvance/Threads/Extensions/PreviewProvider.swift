@@ -5,7 +5,6 @@
 //
 
 import SwiftUI
-import Firebase
 
 extension PreviewProvider {
     static var dev: DeveloperPreview {
@@ -15,24 +14,6 @@ extension PreviewProvider {
 
 class DeveloperPreview {
     static let shared = DeveloperPreview()
-    
-    var thread = Thread(
-        ownerUid: NSUUID().uuidString,
-        caption: "Here's to the crazy ones. The misfits. The rebels",
-        videoDescription: "Description",
-        videoURL: "https://www.youtube.com/watch?v=rTqrpOLbhHQ",
-        timestamp: Timestamp(),
-        likes: 247,
-        imageUrl: "lewis-hamilton",
-        replyCount: 67,
-        user: User(
-            fullname: "Lewis Hamilton",
-            email: "lewis-hamilton@gmail.com",
-            username: "lewis-hamilton",
-            profileImageUrl: nil,
-            id: NSUUID().uuidString
-        )
-    )
     
     var post = Post(
         id: NSUUID().uuidString,
@@ -67,7 +48,7 @@ class DeveloperPreview {
         title: "Test post title",
         postType: "Test post type",
         content: "ñalksjdfñlaskjdfñlkasjdfñlkjsadl jsañldk jsaldkfjsahfaskdjf lñksjfl sajdf ñasj fñ jsdlfk jasdkf jñalsdfj ",
-        filesIds: ["test1", "test2"],
+        filesUrls: ["test1", "test2"],
         createdAt: Date.now
     )
     
@@ -140,21 +121,4 @@ class DeveloperPreview {
     )
     
     var tag = Tag(id: NSUUID().uuidString, name: "Autismo", description: "Discapacidad", createdAt: Date(), updatedAt: Date(), updatedBy: "You")
-    
-    lazy var activityModel = ActivityModel(
-        type: .like,
-        senderUid: NSUUID().uuidString,
-        timestamp: Timestamp(),
-        user: self.user
-    )
-    
-    lazy var reply = ThreadReply(
-        threadId: NSUUID().uuidString,
-        replyText: "This is a test reply for preview purposes",
-        threadReplyOwnerUid: NSUUID().uuidString,
-        threadOwnerUid: NSUUID().uuidString,
-        timestamp: Timestamp(),
-        thread: thread,
-        replyUser: user
-    )
 }

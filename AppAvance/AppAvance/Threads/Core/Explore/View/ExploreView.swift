@@ -11,16 +11,18 @@ struct ExploreView: View {
     @StateObject var viewModel = ExploreViewModel()
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                OrganizationListView(viewModel: viewModel)
-                    .navigationDestination(for: Organization.self) { organization in
-                        OrganizationProfileView(organization: organization)
+        VStack {
+            NavigationStack {
+                VStack {
+                    OrganizationListView(viewModel: viewModel)
+                        .navigationDestination(for: Organization.self) { organization in
+                            OrganizationProfileView(organization: organization)
+                        }
+                }
+                .overlay {
+                    if viewModel.isLoading {
+                        ProgressView()
                     }
-            }
-            .overlay {
-                if viewModel.isLoading {
-                    ProgressView()
                 }
             }
         }

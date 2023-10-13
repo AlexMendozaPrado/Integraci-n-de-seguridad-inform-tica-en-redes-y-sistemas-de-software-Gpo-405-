@@ -10,75 +10,64 @@ struct FeedView: View {
     @StateObject var viewModel = FeedViewModel()
     
     var body: some View {
-        if (!viewModel.posts.isEmpty) {
-            NavigationStack {
-                ScrollView(showsIndicators: false) {
-                    LazyVStack {
-                        ForEach(viewModel.posts) { post in
-                            NavigationLink(value: post) {
-                                PostCell(config: .post(post))
+        NavigationStack {
+            ZStack {
+                Background()
+                
+                if !viewModel.posts.isEmpty {
+                    ScrollView(showsIndicators: false) {
+                        LazyVStack {
+                            ForEach(viewModel.posts) { post in
+                                NavigationLink(value: post) {
+                                    PostCell(post: post)
+                                }
+                            }
+                            .padding(.top)
+                        }
+                    }
+                    .refreshable {
+                        Task { await viewModel.fetchPosts() }
+                    }
+                    .overlay {
+                        if viewModel.isLoading { ProgressView() }
+                    }
+                    .navigationTitle("SocialConnect")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                Task { await viewModel.fetchPosts() }
+                            } label: {
+                                Image(systemName: "arrow.counterclockwise")
+                                    .foregroundColor(Color.theme.primaryText)
                             }
                         }
-                        .padding(.top)
                     }
-                }
-                .refreshable {
-                    Task { await viewModel.fetchPosts() }
-                }
-                .overlay {
-                    if viewModel.isLoading { ProgressView() }
-                }
-                .navigationDestination(for: User.self, destination: { user in
-                    if user.isCurrentUser {
-                        CurrentUserProfileView(didNavigate: true)
-                    } else {
-                        ProfileView(user: user)
+                    .padding([.top, .horizontal])
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        Text("No hay publicaciones recientes")
                     }
-                })
-                .navigationDestination(for: Thread.self, destination: { thread in
-                    ThreadDetailsView(thread: thread)
-                })
-                .navigationTitle("SocialConnect")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            Task { await viewModel.fetchPosts() }
-                        } label: {
-                            Image(systemName: "arrow.counterclockwise")
-                                .foregroundColor(Color.theme.primaryText)
+                    .refreshable {
+                        Task { await viewModel.fetchPosts() }
+                    }
+                    .overlay {
+                        if viewModel.isLoading { ProgressView() }
+                    }
+                    .navigationTitle("SocialConnect")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                Task { await viewModel.fetchPosts() }
+                            } label: {
+                                Image(systemName: "arrow.counterclockwise")
+                                    .foregroundColor(Color.theme.primaryText)
+                            }
                         }
-
                     }
+                    .padding([.top, .horizontal])
                 }
-                .padding([.top, .horizontal])
-            }
-        }
-        else {
-            NavigationStack {
-                ScrollView(showsIndicators: false) {
-                    Text("No hay publicaciones recientes")
-                }
-                .refreshable {
-                    Task { await viewModel.fetchPosts() }
-                }
-                .overlay {
-                    if viewModel.isLoading { ProgressView() }
-                }
-                .navigationTitle("SocialConnect")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            Task { await viewModel.fetchPosts() }
-                        } label: {
-                            Image(systemName: "arrow.counterclockwise")
-                                .foregroundColor(Color.theme.primaryText)
-                        }
-                        
-                    }
-                }
-                .padding([.top, .horizontal])
             }
         }
     }

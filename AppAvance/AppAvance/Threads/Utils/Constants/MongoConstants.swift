@@ -7,5 +7,5 @@
 
 import Foundation
 
-let mongoBaseUrl: String = "http://192.168.100.38:3000"
+let mongoBaseUrl: String = "http://localhost:3000"
 let mongoHeaders = [ "Content-Type": "application/json" ]

@@ -1,4 +1,3 @@
-// Importaciones necesarias
 import SwiftUI
 
 // Definición de la vista RegistrationView
@@ -10,6 +9,7 @@ struct RegistrationView: View {
     
     // Cuerpo de la vista
     var body: some View {
+        NavigationView {
         VStack {
             Spacer()
             
@@ -22,6 +22,14 @@ struct RegistrationView: View {
             
             // Se crean campos de texto para el ingreso de información de registro
             VStack {
+                NavigationLink{
+                                    OrganizationRegistrationView()
+                                } label: {
+                                    Text("Register as Organization")
+                                        .foregroundColor(Color.theme.primaryBackground)
+                                        .modifier(ThreadsButtonModifier())
+                                }
+                
                 TextField("Enter your email", text: $viewModel.email)
                     .autocapitalization(.none)
                     .modifier(ThreadsTextFieldModifier())
@@ -76,10 +84,11 @@ struct RegistrationView: View {
             }
             .padding(.vertical, 16)
         }
+                }
         .alert(isPresented: $viewModel.showAlert) {
             // Se muestra una alerta en caso de error de autenticación
             Alert(title: Text("Error"),
-                  message: Text(viewModel.authError?.description ?? ""))
+                  message: Text("Usuario y/o contraseña incorrecta"))
         }
     }
 }

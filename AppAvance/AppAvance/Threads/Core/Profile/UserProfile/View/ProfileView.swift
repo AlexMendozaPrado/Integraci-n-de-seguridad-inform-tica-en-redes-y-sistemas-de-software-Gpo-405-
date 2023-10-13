@@ -7,8 +7,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var selectedThreadFilter: ProfileThreadFilterViewModel = .threads
-    @State private var showEditProfile = false 
+    @State private var showEditProfile = false
     @StateObject var viewModel: UserProfileViewModel
     @State private var showUserRelationSheet = false
     let url = URL(string: "https://www.instagram.com/")!
@@ -56,7 +55,7 @@ struct ProfileView: View {
                     
                     Spacer()
                     
-                    CircularProfileImageView(user: user, size: .medium)
+                    CircularProfileImageView(logoUrl: user.profileImageUrl, size: .medium)
                 }
                 HStack {
                     //Boton para compartir el perfil
@@ -72,7 +71,7 @@ struct ProfileView: View {
 
                     //Boton para agregar y quitar de favoritos
                     Button {
-                        handleFollowTapped()
+                        print("Followed!")
                     } label: {
                         HStack{
                             Text(isFollowed ? "En Favoritos" : "Agregar a Favoritos")
@@ -95,27 +94,11 @@ struct ProfileView: View {
                 }
                 
                 
-                UserContentListView(
-                    selectedFilter: $selectedThreadFilter,
-                    user: user
-                )
-            }
-            .sheet(isPresented: $showUserRelationSheet) {
-                UserRelationsView(user: user)
+                UserContentListView(viewModel: UserContentListViewModel(user: user))
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
-    }
-    
-     func handleFollowTapped() {
-        Task {
-            if isFollowed {
-                try await viewModel.unfollow()
-            } else {
-                try await viewModel.follow()
-            }
-        }
     }
 }
 

@@ -82,7 +82,7 @@ class FeedViewModel: ObservableObject {
                         title: data["title"].stringValue,
                         postType: data["postType"].stringValue,
                         content: data["content"].stringValue,
-                        filesIds: data["filesIds"].arrayValue.map { dataId in
+                        filesUrls: data["filesIds"].arrayValue.map { dataId in
                             dataId.stringValue
                         },
                         createdAt: Date.now

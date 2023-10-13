@@ -13,6 +13,6 @@ struct Post: Identifiable, Codable, Hashable {
     let title: String
     let postType: String
     let content: String
-    let filesIds: [String]
+    let filesUrls: [String]
     let createdAt: Date
 }
