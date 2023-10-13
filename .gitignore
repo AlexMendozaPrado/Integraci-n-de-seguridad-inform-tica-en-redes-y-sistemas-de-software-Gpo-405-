@@ -4,3 +4,16 @@ Backend/package-lock.json
 Backend/*.log
 Backend/*.gz
 Backend/*.env
+
+AppAvance/.DS_Store
+AppAvance/*.swp
+AppAvance/*~.nib
+AppAvance/build/
+AppAvance/*.pbxuser
+AppAvance/*.perspective
+AppAvance/*.perspectivev3
+AppAvance/*.mode1v3
+AppAvance/*.mode2v3
+AppAvance/*.xcuserdata
+AppAvance/*.xccheckout
+AppAvance/*.moved-aside
