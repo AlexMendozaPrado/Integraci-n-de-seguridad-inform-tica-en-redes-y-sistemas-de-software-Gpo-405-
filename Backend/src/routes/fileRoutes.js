@@ -13,6 +13,11 @@
  *     tags: [Files]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: organizationId
+ *         in: query
+ *         required: true
+ *     description: Organization ID of the files to retrieve
  *     responses:
  *       200:
  *         description: Successful response

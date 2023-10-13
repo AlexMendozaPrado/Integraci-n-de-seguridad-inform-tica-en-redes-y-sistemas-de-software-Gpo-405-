@@ -33,19 +33,6 @@ struct EditProfileView: View {
                         .font(.footnote)
 
                         Spacer()
-                        
-                        PhotosPicker(selection: $viewModel.selectedImage) {
-                            if let image = viewModel.profileImage {
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: ProfileImageSize.small.dimension, height: ProfileImageSize.small.dimension)
-                                    .clipShape(Circle())
-                                    .foregroundColor(Color(.systemGray4))
-                            } else {
-                                CircularProfileImageView(user: user, size: .small)
-                            }
-                        }
                     }
                     
                     Divider()
@@ -87,7 +74,6 @@ struct EditProfileView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Listo") {
                             Task {
-                                try await viewModel.updateUserData()
                                 dismiss()
                             }
                         }
@@ -103,9 +89,6 @@ struct EditProfileView: View {
                 .background(Color.theme.primaryBackground)
 
                 .padding()
-            }
-            .onAppear {
-                viewModel.loadUserData()
             }
         }
     }

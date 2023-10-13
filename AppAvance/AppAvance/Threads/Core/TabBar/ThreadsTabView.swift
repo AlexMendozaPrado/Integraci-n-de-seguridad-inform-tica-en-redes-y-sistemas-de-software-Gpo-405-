@@ -12,13 +12,15 @@ struct ThreadsTabView: View {
             FeedView()
                 .tabItem {
                     Image(systemName: selectedTab == 0 ? "house.fill" : "house")
+                        .imageScale(.large)
                     .environment(\.symbolVariants, selectedTab == 0 ? .fill : .none)
                 }
                 .onAppear { selectedTab = 0 }
                 .tag(0)
 
             ExploreView()
-                .tabItem { Image(systemName: "magnifyingglass") }
+                .tabItem { Image(systemName: "magnifyingglass")
+                    .imageScale(.large)}
                 .onAppear { selectedTab = 1 }
                 .tag(1)
 
@@ -26,6 +28,7 @@ struct ThreadsTabView: View {
 
             CreateThreadDummyView(tabIndex: $selectedTab)
                 .tabItem { Image(systemName: selectedTab == 2 ? "plus.app.fill" : "plus.app")
+                        .imageScale(.large)
                         .environment(\.symbolVariants, selectedTab == 2 ? .fill : .none)
                     }
                     .onAppear { selectedTab = 2 }
@@ -36,6 +39,7 @@ struct ThreadsTabView: View {
             ActivityView()
                 .tabItem {
                     Image(systemName: selectedTab == 3 ? "heart.fill" : "heart")
+                    .imageScale(.large)
                     .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)
                 }
                 .onAppear { selectedTab = 3 }
@@ -46,6 +50,7 @@ struct ThreadsTabView: View {
             CurrentUserProfileView()
                 .tabItem {
                     Image(systemName: selectedTab == 4 ? "person.fill" : "person")
+                        .imageScale(.large)
                     .environment(\.symbolVariants, selectedTab == 4 ? .fill : .none)
                 }
                 .onAppear { selectedTab = 4 }

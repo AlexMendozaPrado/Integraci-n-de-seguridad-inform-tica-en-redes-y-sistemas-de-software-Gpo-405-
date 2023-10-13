@@ -39,18 +39,6 @@ struct LoginView: View {
                         .modifier(ThreadsTextFieldModifier())
                 }
                 
-                NavigationLink {
-                    ForgotPasswordView()
-                } label: {
-                    Text("Olvidaste tu constraseña?")
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                        .padding(.top)
-                        .padding(.trailing, 28)
-                        .foregroundColor(Color.theme.primaryText)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }
-                
                 Button {
                     Task { login() }
                 } label: {

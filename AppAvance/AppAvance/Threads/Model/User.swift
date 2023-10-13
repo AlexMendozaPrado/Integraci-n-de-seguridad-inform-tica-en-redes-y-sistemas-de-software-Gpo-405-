@@ -4,8 +4,6 @@
 //
 //
 
-import FirebaseFirestoreSwift
-import Firebase
 import Foundation
 
 struct User: Identifiable, Codable {
@@ -18,10 +16,6 @@ struct User: Identifiable, Codable {
     var stats: UserStats?
     var isFollowed: Bool?
     let id: String
-    
-    var isCurrentUser: Bool {
-        return id == Auth.auth().currentUser?.uid
-    }
 }
 
 struct UserStats: Codable {

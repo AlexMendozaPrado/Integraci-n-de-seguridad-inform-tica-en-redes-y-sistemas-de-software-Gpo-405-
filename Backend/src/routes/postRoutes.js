@@ -65,7 +65,7 @@
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -75,11 +75,10 @@
  *                 type: string
  *               content:
  *                 type: string
- *               files:
+ *               fileUrls:
  *                 type: array
  *                 items:
  *                   type: string
- *                   format: binary
  *     responses:
  *       200:
  *         description: Post created successfully

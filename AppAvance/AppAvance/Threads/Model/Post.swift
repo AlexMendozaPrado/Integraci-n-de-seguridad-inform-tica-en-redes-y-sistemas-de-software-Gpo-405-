@@ -9,10 +9,10 @@ import Foundation
 
 struct Post: Identifiable, Codable, Hashable {
     var id: String
-    let organizationId: String
+    let organization: Organization
     let title: String
     let postType: String
     let content: String
-    let fileResults: [String]
+    let filesUrls: [String]
     let createdAt: Date
 }

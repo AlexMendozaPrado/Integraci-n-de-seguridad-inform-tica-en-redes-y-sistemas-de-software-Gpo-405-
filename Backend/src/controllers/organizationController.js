@@ -15,6 +15,8 @@ exports.createOrganization = async (req, res) => {
             description,
             password,
             logoUrl,
+            videoUrl,
+            bannerUrl,
             address,
             contact,
             rfc,
@@ -48,6 +50,8 @@ exports.createOrganization = async (req, res) => {
             schedule,
             socialNetworks,
             logoUrl,
+            videoUrl,
+            bannerUrl,
             tags,
             createdAt: new Date(),
             updatedAt: new Date()

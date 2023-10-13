@@ -32,6 +32,8 @@ const organizationSchema = new mongoose.Schema({
     schedule: String,
     socialNetworks: [SocialNetwork],
     logoUrl: String,
+    videoUrl: String,
+    bannerUrl: String,
     tags: [mongoose.Schema.Types.ObjectId],
     createdAt: Date,
     updatedAt: Date

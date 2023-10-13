@@ -8,14 +8,12 @@ import SwiftUI
 
 enum CurrentUserProfileSheetConfig: Identifiable {
     case editProfile
-    case userRelations
     
     var id: Int { return hashValue }
 }
 
 struct CurrentUserProfileContentView: View {
     @StateObject var viewModel = CurrentUserProfileViewModel() 
-    @State private var selectedThreadFilter: ProfileThreadFilterViewModel = .threads
     @State private var sheetConfig: CurrentUserProfileSheetConfig?
     
     private var user: User? {
@@ -52,20 +50,11 @@ struct CurrentUserProfileContentView: View {
                             Text(bio)
                                 .font(.footnote)
                         }
-                        
-                        Button {
-                            sheetConfig = .userRelations
-                        } label: {
-                            Text("\(viewModel.currentUser?.stats?.followersCount ?? 0) Oscs")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
-                        }
-
                     }
                     
                     Spacer()
                     
-                    CircularProfileImageView(user: user, size: .medium)
+                    CircularProfileImageView(logoUrl: user?.profileImageUrl, size: .medium)
                 }
                 
                 HStack {
@@ -99,7 +88,7 @@ struct CurrentUserProfileContentView: View {
                 }
                 
                 if let user = user {
-                    UserContentListView(selectedFilter: $selectedThreadFilter, user: user)
+                    UserContentListView(viewModel: UserContentListViewModel(user: user))
                 }
             }
         }
@@ -108,10 +97,6 @@ struct CurrentUserProfileContentView: View {
             case .editProfile:
                 EditProfileView()
                     .environmentObject(viewModel)
-            case .userRelations:
-                if let user {
-                    UserRelationsView(user: user)
-                }
             }
         })
     }
