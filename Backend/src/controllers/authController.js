@@ -1,4 +1,6 @@
 const User = require("../models/userModel"); // Import your User model
+const Role = require("../models/roleModel"); // Import your Role model
+const Organization = require("../models/organizationModel"); // Import your Organization model
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const secretKey = "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"; // Replace with your own secret key
@@ -23,6 +25,10 @@ exports.login = async (req, res) => {
 
         // If the passwords match, generate a JWT token
         if (passwordMatch) {
+            const role = await Role.findById(user.role);
+            const organization = await Organization.findOne({ userId: user._id });
+            const isOrganization = organization ? true : false;
+
             const token = jwt.sign({
                 sub: {
                     _id: user._id,
@@ -30,7 +36,9 @@ exports.login = async (req, res) => {
                     lastName: user.lastName,
                     email: user.email,
                     phoneNumber: user.phoneNumber,
-                    role: user.role
+                    role: role.name,
+                    imageUrl: user.imageUrl,
+                    isOrganization
                 }
             }, secretKey);
 

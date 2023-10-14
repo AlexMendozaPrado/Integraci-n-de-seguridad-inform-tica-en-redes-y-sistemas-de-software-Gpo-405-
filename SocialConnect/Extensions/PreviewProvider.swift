@@ -42,16 +42,19 @@ class DeveloperPreview {
         title: "Test post title",
         postType: "Test post type",
         content: "ñalksjdfñlaskjdfñlkasjdfñlkjsadl jsañldk jsaldkfjsahfaskdjf lñksjfl sajdf ñasj fñ jsdlfk jasdkf jñalsdfj ",
-        filesUrls: ["test1", "test2"],
+        videoUrl: "https://www.youtube.com/watch?v=SoJ-L9peEIQ",
         createdAt: Date.now
     )
     
     var user = User(
-        fullname: "Daniel Ricciardo",
-        email: "daniel@gmail.com",
-        username: "daniel-ricciardo",
-        profileImageUrl: nil,
-        id: NSUUID().uuidString
+        id: "String",
+        email: "patovw@gmail.com",
+        firstName: "Patricio",
+        lastName: "Villarreal",
+        phoneNumber: "8115914144",
+        role: "Admin",
+        imageUrl: "",
+        isFollowed: true
     )
     
     var organization = Organization(

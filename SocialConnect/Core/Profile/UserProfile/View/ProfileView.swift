@@ -11,7 +11,7 @@ struct ProfileView: View {
     }
     
     private var isFollowed: Bool {
-        return viewModel.user.isFollowed ?? false
+        return viewModel.user.isFollowed
     }
     
     private var user: User {
@@ -24,32 +24,23 @@ struct ProfileView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(user.fullname)
+                            Text(user.firstName + user.lastName)
                                 .font(.title2)
                                 .fontWeight(.semibold)
                             
-                            Text(user.username)
+                            Text(user.email)
                                 .font(.subheadline)
                         }
                         
-                        if let bio = user.bio {
-                            Text(bio)
+                        if !user.phoneNumber.isEmpty {
+                            Text(user.phoneNumber)
                                 .font(.footnote)
                         }
-                        
-                        Button {
-                            showUserRelationSheet.toggle()
-                        } label: {
-                            Text("\(user.stats?.followersCount ?? 0) followers")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
-                        }
-
                     }
                     
                     Spacer()
                     
-                    CircularProfileImageView(logoUrl: user.profileImageUrl, size: .medium)
+                    CircularProfileImageView(logoUrl: user.imageUrl, size: .medium)
                 }
                 HStack {
                     //Boton para compartir el perfil

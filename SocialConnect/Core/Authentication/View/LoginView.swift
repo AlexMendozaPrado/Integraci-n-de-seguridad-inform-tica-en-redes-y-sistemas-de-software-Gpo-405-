@@ -1,58 +1,49 @@
 import SwiftUI
 import Alamofire
 import SwiftyJSON
+import JWTDecode
 
 struct LoginView: View {
-    @AppStorage("token") var token: String = ""
-    @State var loginInfo: LoginInfo = LoginInfo(email: "", password: "")
-    @State var isAuthenticating: Bool = false
-    @State var showAlert: Bool = false
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack {
             VStack {
-                
                 Spacer()
                 
-                // logo image
                 Image("Yconnect")
-                    //.renderingMode(.template)
                     .resizable()
-                    //.colorMultiply(Color.theme.primaryText)
                     .scaledToFit()
                     .frame(width: 120, height: 120)
                     .padding()
                 
-                // text fields
                 VStack {
-                    TextField("Ingresa tu correo", text: $loginInfo.email)
+                    TextField("Ingresa tu correo", text: $viewModel.loginInfo.email)
                         .autocapitalization(.none)
                         .modifier(ThreadsTextFieldModifier())
                     
-                    SecureField("Ingresa tu contraseña", text: $loginInfo.password)
+                    SecureField("Ingresa tu contraseña", text: $viewModel.loginInfo.password)
                         .modifier(ThreadsTextFieldModifier())
                 }
                 
                 Button {
-                    Task { login() }
+                    Task { viewModel.login() }
                 } label: {
-                    Text(isAuthenticating ? "" : "Login")
+                    Text(viewModel.isAuthenticating ? "" : "Login")
                         .foregroundColor(Color.theme.primaryBackground)
                         .modifier(PostsButtonModifier())
                         .overlay {
-                            if isAuthenticating {
+                            if viewModel.isAuthenticating {
                                 ProgressView()
                                     .tint(Color.theme.primaryBackground)
                             }
                         }
                 }
-                .disabled(isAuthenticating || loginInfo.password.isEmpty || loginInfo.email.isEmpty)
-                .opacity(isAuthenticating || loginInfo.password.isEmpty || loginInfo.email.isEmpty ? 1 : 0.7)
-                
+                .disabled(viewModel.isAuthenticating || viewModel.loginInfo.password.isEmpty || viewModel.loginInfo.email.isEmpty)
+                .opacity(viewModel.isAuthenticating || !viewModel.loginInfo.password.isEmpty || !viewModel.loginInfo.email.isEmpty ? 1 : 0.7)
                 .padding(.vertical)
                 
                 Spacer()
-                
                 Divider()
                 
                 NavigationLink {
@@ -71,25 +62,10 @@ struct LoginView: View {
                 .padding(.vertical, 16)
 
             }
-            .alert(isPresented: $showAlert) {
+            .alert(isPresented: $viewModel.showAlert) {
                 Alert(title: Text("Error"),
                       message: Text("Usuario o contraseña incorrecta"))
             }
-        }
-    }
-    
-    func login() {        
-        AF.request("\(mongoBaseUrl)/auth/login", method: .post, parameters: loginInfo, encoder: .json).responseData { data in
-            isAuthenticating = true
-            
-            let json = try! JSON(data: data.data!)
-            if json["token"].exists() {
-                token = json["token"].stringValue
-            } else {
-                showAlert = true
-            }
-            
-            isAuthenticating = false
         }
     }
 }

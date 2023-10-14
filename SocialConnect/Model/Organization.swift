@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct Organization: Identifiable, Codable, Hashable {
     struct Address: Hashable, Codable {
@@ -43,9 +44,96 @@ struct Organization: Identifiable, Codable, Hashable {
     let tags: [String]
     let createdAt: Date
     let updatedAt: Date
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+}
+
+extension Organization {
+    init?(json: JSON) {
+        guard
+            let id = json["_id"].string,
+            let userId = json["userId"].string,
+            let name = json["name"].string,
+            let addressJSON = json["address"].dictionary,
+            let contactJSON = json["contact"].dictionary,
+            let socialNetworksJSON = json["socialNetworks"].array,
+            let bannerUrl = json["bannerUrl"].string,
+            let tags = json["tags"].arrayObject as? [String]
+        else {
+            print("Failed to parse basic organization fields")
+            return nil
+        }
+        
+        // Extract Address, Contact, and SocialNetworks
+        guard let address = Address(json: addressJSON) else { return nil }
+        guard let contact = Contact(json: contactJSON) else { return nil }
+        let socialNetworks = socialNetworksJSON.compactMap { SocialNetwork(json: $0) }
+
+        self.id = id
+        self.userId = userId
+        self.name = name
+        self.userName = json["userName"].string
+        self.rfc = json["rfc"].string
+        self.schedule = json["schedule"].string
+        self.address = address
+        self.contact = contact
+        self.description = json["description"].string
+        self.socialNetworks = socialNetworks
+        self.logoUrl = json["logoUrl"].string
+        self.videoUrl = json["videoUrl"].string
+        self.bannerUrl = bannerUrl
+        self.tags = tags
+        self.createdAt = Date.now
+        self.updatedAt = Date.now
     }
 }
 
+extension Organization.Address {
+    init?(json: [String: JSON]) {
+        guard
+            let street1 = json["street1"]?.string,
+            let city = json["city"]?.string,
+            let state = json["state"]?.string,
+            let zipCode = json["zipCode"]?.string,
+            let country = json["country"]?.string
+        else {
+            print("Failed to parse basic organization address fields")
+            return nil
+        }
+
+        self.street1 = street1
+        self.street2 = json["street2"]?.string ?? ""
+        self.city = city
+        self.state = state
+        self.zipCode = zipCode
+        self.country = country
+    }
+}
+
+extension Organization.Contact {
+    init?(json: [String: JSON]) {
+        guard
+            let phoneNumber = json["phoneNumber"]?.string,
+            let email = json["email"]?.string
+        else {
+            print("Failed to parse basic organization contact fields")
+            return nil
+        }
+
+        self.phoneNumber = phoneNumber
+        self.email = email
+    }
+}
+
+extension Organization.SocialNetwork {
+    init?(json: JSON) {
+        guard
+            let name = json["name"].string,
+            let url = json["url"].string
+        else {
+            print("Failed to parse basic organization social network fields")
+            return nil
+        }
+
+        self.name = name
+        self.url = url
+    }
+}

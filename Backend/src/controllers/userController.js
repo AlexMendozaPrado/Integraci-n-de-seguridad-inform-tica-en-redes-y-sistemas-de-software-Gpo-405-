@@ -3,7 +3,7 @@ const { hashPassword } = require('../services/passwordService');
 
 exports.createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, phoneNumber, password, tags, role } = req.body;
+    const { firstName, lastName, email, phoneNumber, password, tags, role, imageUrl } = req.body;
     const hashedPassword = await hashPassword(password);
 
     const newUser = new User({
@@ -13,7 +13,8 @@ exports.createUser = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       tags,
-      role
+      role,
+      imageUrl,
     });
 
     const savedUser = await newUser.save();

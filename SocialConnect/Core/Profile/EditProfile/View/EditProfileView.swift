@@ -22,7 +22,7 @@ struct EditProfileView: View {
                             Text("Nombre")
                                 .fontWeight(.semibold)
                             
-                            Text(user?.fullname ?? "")
+                            Text((user?.firstName ?? "") + (user?.lastName ?? ""))
                         }
                         .font(.footnote)
 
@@ -35,7 +35,7 @@ struct EditProfileView: View {
                         Text("Intereses ")
                             .fontWeight(.semibold)
                         
-                        TextField("Escribe tus intereses..", text: $viewModel.bio, axis: .vertical)
+                        TextField("Modifica tus tags de interes..", text: $viewModel.tags, axis: .vertical)
                     }
                     .font(.footnote)
                     

@@ -83,6 +83,8 @@
  *                   type: string
  *               role:
  *                 type: string
+ *               imageUrl:
+ *                 type: string
  *     responses:
  *       200:
  *         description: User created successfully

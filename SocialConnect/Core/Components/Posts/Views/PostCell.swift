@@ -5,7 +5,7 @@ struct PostCell: View {
     
     var body: some View {
         VStack {
-            Color("ColorApp")
+            Color("PrimaryText")
                 .frame(width: UIScreen.main.bounds.width * 0.8, height: 2)
             
             VStack {
@@ -15,21 +15,27 @@ struct PostCell: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text(post.title)
-                                .font(.footnote)
-                                .fontWeight(.semibold)
-                            Spacer()
-                        }
+                        Text(post.title)
+                            .font(.footnote)
+                            .fontWeight(.semibold)
                         
                         Text(post.content)
                             .font(.footnote)
                             .multilineTextAlignment(.leading)
+                        
+                        // Example: Displaying video URL
+                        if !post.videoUrl.isEmpty {
+                            WebView(urlString: post.videoUrl)
+                                .frame(height: 200)
+                        }
+                        
+                        // Example: Displaying creation date
+                        Text("Creado en \(post.createdAt, formatter: DateFormatter.shortDate)")
+                            .font(.footnote)
+                            .opacity(0.6)
                     }
                 }
             }
-            Color("ColorApp")
-                .frame(width: UIScreen.main.bounds.width * 0.8, height: 2)
         }
         .foregroundColor(Color.theme.primaryText)
     }

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const Post = require("../models/postModel");
 const Favorite = require("../models/favoriteModel");
 const Organization = require("../models/organizationModel");
-const File = require("../models/fileModel");
+const User = require("../models/userModel");
 
 exports.createPost = async (req, res) => {
   try {
@@ -20,14 +20,14 @@ exports.createPost = async (req, res) => {
       return res.status(404).json({ error: "Organization not found" });
     }
 
-    const { title, postType, content, fileUrls } = req.body;
+    const { title, postType, content, videoUrl } = req.body;
 
     const newPost = new Post({
       organizationId: organizationFound._id,
       title,
       postType,
       content,
-      fileUrls,
+      videoUrl,
       createdAt: new Date(),
     });
 
@@ -66,22 +66,57 @@ exports.updatePost = async (req, res) => {
 // Get all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(
-      token,
+    const userId = jwt.verify(
+      req.headers.authorization.split(" ")[1],
       "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
-    );
-    const userId = decoded.sub._id;
+    ).sub._id;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
     const favorites = await Favorite.find({ userId });
+    const organizationIds = favorites.map(
+      (favorite) => favorite.organizationId
+    );
 
-    const favoritesIds = favorites.map((favorite) => favorite.organizationId);
+    const organizations = await Organization.find({
+      _id: { $in: organizationIds },
+    });
+    const allTagsArray = [
+      ...organizations.flatMap((org) => org.tags),
+      ...(await User.findById(userId, "tags")).tags,
+    ];
 
-    const Posts = await Post.find({
-      organizationId: { $in: favoritesIds },
+    const taggedOrganizations = await Organization.find({
+      tags: { $in: allTagsArray },
     });
 
-    res.status(200).json(Posts);
+    const taggedOrganizationIds = taggedOrganizations.map((org) => org._id);
+
+
+    const posts = await Post.find({
+      $or: [
+        { organizationId: { $in: organizationIds } },
+        { organizationId: { $in: taggedOrganizationIds } },
+        { organizationId: userId },
+      ],
+    })
+      .skip(skip)
+      .limit(limit);
+
+    if (!posts.length)
+      return res.status(200).json({ message: "No more posts available" });
+
+    const allOrganizations = [...organizations, ...taggedOrganizations];
+    const postsWithOrganizationInfo = posts.map((post) => {
+      const organization = allOrganizations.find(
+        (org) => org._id.toString() === post.organizationId.toString()
+      );
+      return { ...post._doc, organization };
+    });
+
+    res.status(200).json(postsWithOrganizationInfo);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not fetch posts" });

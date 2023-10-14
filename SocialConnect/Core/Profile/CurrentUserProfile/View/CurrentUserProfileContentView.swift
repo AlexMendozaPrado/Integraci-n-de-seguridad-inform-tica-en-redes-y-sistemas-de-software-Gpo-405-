@@ -32,23 +32,23 @@ struct CurrentUserProfileContentView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(user?.fullname ?? "")
+                            Text((user?.firstName ?? "") + (user?.lastName ?? ""))
                                 .font(.title2)
                                 .fontWeight(.semibold)
                             
-                            Text(user?.username ?? "")
+                            Text(user?.email ?? "")
                                 .font(.subheadline)
                         }
                         
-                        if let bio = user?.bio {
-                            Text(bio)
+                        if let phoneNumber = user?.phoneNumber {
+                            Text(phoneNumber)
                                 .font(.footnote)
                         }
                     }
                     
                     Spacer()
                     
-                    CircularProfileImageView(logoUrl: user?.profileImageUrl, size: .medium)
+                    CircularProfileImageView(logoUrl: user?.imageUrl, size: .medium)
                 }
                 
                 HStack {

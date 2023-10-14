@@ -13,6 +13,19 @@
  *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *      - name: limit
+ *        in: query
+ *        description: Number of posts to return
+ *        schema:
+ *        type: integer
+ *        default: 5
+ *      - name: page
+ *        in: query
+ *        description: Page number
+ *        schema:
+ *        type: integer
+ *        default: 1
  *     responses:
  *       200:
  *         description: Successful response
@@ -75,10 +88,8 @@
  *                 type: string
  *               content:
  *                 type: string
- *               fileUrls:
- *                 type: array
- *                 items:
- *                   type: string
+ *               videoUrl:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Post created successfully

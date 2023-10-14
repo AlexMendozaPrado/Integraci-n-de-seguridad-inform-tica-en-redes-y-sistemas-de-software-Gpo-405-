@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CreateThreadDummyView: View {
+struct CreatePostDummyView: View {
     @State private var presented = false
     @Binding var tabIndex: Int
     
@@ -8,13 +8,13 @@ struct CreateThreadDummyView: View {
         VStack { }
         .onAppear { presented = true }
         .sheet(isPresented: $presented) {
-            CreateThreadView(tabIndex: $tabIndex)
+            CreatePostView(tabIndex: $tabIndex)
         }
     }
 }
 
-struct CreateThreadDummyView_Previews: PreviewProvider {
+struct CreatePostDummyView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateThreadDummyView(tabIndex: .constant(0))
+        CreatePostDummyView(tabIndex: .constant(0))
     }
 }

@@ -1,38 +1,35 @@
 import SwiftUI
 
-struct CreateThreadView: View {
+struct CreatePostView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = CreatePostViewModel()
     @Binding var tabIndex: Int
-    @State private var videoURL: String = ""
-    @State private var imageURL: String = ""
-    @State private var description: String = ""
 
     var body: some View {
         NavigationStack {
             VStack {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
-                        TextField("Inicia a Publicar...", text: $viewModel.caption, axis: .vertical)
+                        TextField("Titulo de publicación...", text: $viewModel.title, axis: .vertical)
 
-                        TextField("URL del video de YouTube", text: $videoURL)
+                        TextField("URL del video de YouTube", text: $viewModel.fileUrl)
                             .font(.footnote)
 
-                        if !videoURL.isEmpty {
-                            WebView(urlString: videoURL)
+                        if !viewModel.fileUrl.isEmpty {
+                            WebView(urlString: viewModel.fileUrl)
                                 .frame(height: 200)
                         }
 
-                        TextField("Descripción", text: $description)
+                        TextField("Descripción de publicación", text: $viewModel.content)
                             .font(.footnote)
                     }
                     .font(.footnote)
 
                     Spacer()
 
-                    if !viewModel.caption.isEmpty {
+                    if !viewModel.content.isEmpty {
                         Button {
-                            viewModel.caption = ""
+                            viewModel.content = ""
                         } label: {
                             Image(systemName: "xmark")
                                 .resizable()
@@ -63,8 +60,8 @@ struct CreateThreadView: View {
                     } label: {
                         Label("Publicar", systemImage: "paperplane.fill")
                     }
-                    .opacity(viewModel.caption.isEmpty ? 0.5 : 1.0)
-                    .disabled(viewModel.caption.isEmpty)
+                    .opacity(viewModel.title.isEmpty ? 0.5 : 1.0)
+                    .disabled(viewModel.title.isEmpty)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.theme.primaryText)
@@ -78,8 +75,8 @@ struct CreateThreadView: View {
 }
 
 
-struct CreateThreadView_Previews: PreviewProvider {
+struct CreatePostView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateThreadView(tabIndex: .constant(0))
+        CreatePostView(tabIndex: .constant(0))
     }
 }

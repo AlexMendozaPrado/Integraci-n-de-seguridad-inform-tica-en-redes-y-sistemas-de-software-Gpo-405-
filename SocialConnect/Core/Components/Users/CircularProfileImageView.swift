@@ -50,6 +50,6 @@ struct CircularProfileImageView: View {
 
 struct CircularProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-        CircularProfileImageView(logoUrl: dev.user.profileImageUrl, size: .xxSmall)
+        CircularProfileImageView(logoUrl: dev.user.imageUrl, size: .xxSmall)
     }
 }

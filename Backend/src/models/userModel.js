@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   tags: [mongoose.Schema.Types.ObjectId],
   role: mongoose.Schema.Types.ObjectId,
+  imageUrl: String,
   createdAt: Date,
 });
 

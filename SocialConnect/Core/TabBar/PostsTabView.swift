@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct PostsTabView: View {
+    @AppStorage("isOrganization") var isOrganization: Bool = false
     @State private var selectedTab = 0
 
     var body: some View {
@@ -19,18 +20,16 @@ struct PostsTabView: View {
                     .imageScale(.large)}
                 .onAppear { selectedTab = 1 }
                 .tag(1)
-
-            // **Línea 21:** Crea la pestaña Crear hilo. La pestaña Crear hilo permite al usuario crear un nuevo hilo.
-
-            CreateThreadDummyView(tabIndex: $selectedTab)
-                .tabItem { Image(systemName: selectedTab == 2 ? "plus.app.fill" : "plus.app")
-                        .imageScale(.large)
-                        .environment(\.symbolVariants, selectedTab == 2 ? .fill : .none)
+            
+            if isOrganization {
+                CreatePostDummyView(tabIndex: $selectedTab)
+                    .tabItem { Image(systemName: selectedTab == 2 ? "plus.app.fill" : "plus.app")
+                            .imageScale(.large)
+                            .environment(\.symbolVariants, selectedTab == 2 ? .fill : .none)
                     }
                     .onAppear { selectedTab = 2 }
                     .tag(2)
-
-            // **Línea 27:** Crea la pestaña Actividad. La pestaña Actividad muestra una lista de actividades del usuario, como los hilos en los que ha participado y las publicaciones que ha realizado.
+            }
 
             ActivityView()
                 .tabItem {
@@ -40,8 +39,6 @@ struct PostsTabView: View {
                 }
                 .onAppear { selectedTab = 3 }
                 .tag(3)
-
-            // **Línea 33:** Crea la pestaña Perfil de usuario actual. La pestaña Perfil de usuario actual muestra el perfil del usuario actual.
 
             CurrentUserProfileView()
                 .tabItem {

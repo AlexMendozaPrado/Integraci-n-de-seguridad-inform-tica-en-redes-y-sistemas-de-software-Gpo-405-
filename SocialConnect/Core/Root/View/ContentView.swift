@@ -1,11 +1,12 @@
 import SwiftUI
+import JWTDecode
 
 struct ContentView: View {
-    @AppStorage("token") var token: String = ""
+    @StateObject var viewModel = ContentViewModel()
     
     var body: some View {
         Group {
-            if token.isEmpty {
+            if !viewModel.isValidJWT() {
                 LoginView()
             } else {
                 PostsTabView()

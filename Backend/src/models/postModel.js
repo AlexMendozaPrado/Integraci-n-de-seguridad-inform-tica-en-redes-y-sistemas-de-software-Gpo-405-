@@ -6,7 +6,7 @@ const postSchema = new mongoose.Schema({
   title: String,
   postType: mongoose.Schema.Types.ObjectId,
   content: String,
-  fileUrls: [String],
+  videoUrl: String,
   createdAt: Date,
 });
 
