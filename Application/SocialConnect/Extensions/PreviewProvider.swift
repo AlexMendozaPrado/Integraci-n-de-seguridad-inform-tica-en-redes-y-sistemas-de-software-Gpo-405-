@@ -10,10 +10,10 @@ class DeveloperPreview {
     static let shared = DeveloperPreview()
     
     var post = Post(
-        id: NSUUID().uuidString,
+        id: "65271f83b994e6e82eedc0e4",
         organization: Organization(
-            id: NSUUID().uuidString,
-            userId: "6511244a9559b458b7518a51",
+            id: "65263953d45fed8455675e77",
+            userId: "6510eb3c13e234b63bde1692",
             name: "test name",
             userName: "test userName",
             rfc: "ASDF8245QFH",
@@ -90,31 +90,33 @@ class DeveloperPreview {
     )
     
     var favorite = Favorite(
-        favoriteId: NSUUID().uuidString,
-        id: NSUUID().uuidString,
-        userId: "test2",
-        name: "Frisa",
+        id: "652ccd41ee8a03f827ff8ec3",
+        organizationId: "65263953d45fed8455675e77",
+        userId: "65263562d45fed8455675e61",
+        name: "asdalskdjfñlaksjdfñlaksjdfñlaksjdfñlaksdjflñkasjdfñlksadjflñksjdff",
+        rfc: "asdf",
+        schedule: "5am a 9pm",
+        userName: "asdf",
         address: Favorite.Address(
-            street1: "street1",
-            street2: "street2",
-            city: "city",
-            state: "state",
-            zipCode: "zipCode",
-            country: "country"
+            street1: "asdf",
+            street2: "asdf",
+            city: "asdf",
+            state: "asdf",
+            zipCode: "asdf",
+            country: "asdf"
         ),
         contact: Favorite.Contact(
-            phoneNumber: "phone",
-            email: "email"
+            phoneNumber: "asdf",
+            email: "asdf"
         ),
-        description: "desc",
-        socialNetworks: [Favorite.SocialNetwork(
-            name: "instagram",
-            url: "www.instagram.com"
-        )],
-        logoUrl: "https://static.guiaongs.org/wp-content/uploads/2015/09/so%C3%B1ar-despierto-360x336.jpg",
-        tags: ["6510b9fb078006769df6cb0c"],
-        createdAt: Date(),
-        updatedAt: Date()
+        description: "asdf",
+        socialNetworks: [Favorite.SocialNetwork(name: "asdf", url: "asdf")],
+        logoUrl: "",
+        videoUrl: "",
+        bannerUrl: "",
+        tags: ["asdf"],
+        createdAt: Date.now,
+        updatedAt: Date.now
     )
     
     var tag = Tag(id: NSUUID().uuidString, name: "Autismo", description: "Discapacidad", createdAt: Date(), updatedAt: Date(), updatedBy: "You")

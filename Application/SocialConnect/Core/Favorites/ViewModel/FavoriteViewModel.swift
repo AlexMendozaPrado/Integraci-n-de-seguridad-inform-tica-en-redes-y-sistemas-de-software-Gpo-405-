@@ -3,16 +3,16 @@ import Alamofire
 import SwiftyJSON
 
 @MainActor
-class ActivityViewModel: ObservableObject {
+class FavoriteViewModel: ObservableObject {
     @AppStorage("token") var token: String = ""
     @Published var favorites = [Favorite]()
     @Published var isLoading = false
 
     init() {
-        Task { try await fetchFavorites() }
+        Task { fetchFavorites() }
     }
 
-    func fetchFavorites() async throws {
+    func fetchFavorites() {
         var newHeaders = mongoHeaders
         newHeaders["Authorization"] = "Bearer \(token)"
 
@@ -31,10 +31,13 @@ class ActivityViewModel: ObservableObject {
                 }
 
                 let org = Favorite(
-                    favoriteId: favorite.1["favoriteId"].stringValue,
                     id: favorite.1["_id"].stringValue,
+                    organizationId: favorite.1["organizationId"].stringValue,
                     userId: favorite.1["userId"].stringValue,
                     name: favorite.1["name"].stringValue,
+                    rfc: favorite.1["rfc"].stringValue,
+                    schedule: favorite.1["schedule"].stringValue,
+                    userName: favorite.1["userName"].stringValue,
                     address: Favorite.Address(
                         street1: favorite.1["address"]["street1"].stringValue,
                         street2: favorite.1["address"]["street2"].stringValue,
@@ -50,6 +53,8 @@ class ActivityViewModel: ObservableObject {
                     description: favorite.1["description"].stringValue,
                     socialNetworks: socialNetworksArray,
                     logoUrl: favorite.1["logoUrl"].stringValue,
+                    videoUrl: favorite.1["videoUrl"].stringValue,
+                    bannerUrl: favorite.1["bannerUrl"].stringValue,
                     tags: tagsArray,
                     createdAt: Date(),
                     updatedAt: Date()
@@ -60,15 +65,24 @@ class ActivityViewModel: ObservableObject {
         }
     }
 
-    func removeFavorite(favoriteId: String) async throws {
+    func removeFavorite(favoriteId: String) {
         var newHeaders = mongoHeaders
         newHeaders["Authorization"] = "Bearer \(token)"
-
-        _ = AF.request("\(mongoBaseUrl)/favorites/\(favoriteId)", method: .delete, headers: HTTPHeaders(newHeaders)).responseData { data in
-            /* let json = try! JSON(data: data.data!) */
-            Task { try await self.fetchFavorites() }
+        
+        let url = "\(mongoBaseUrl)/favorites/\(favoriteId)"
+        
+        if let index = favorites.firstIndex(where: { $0.id == favoriteId }) {
+            favorites.remove(at: index)
+        }
+        
+        AF.request(url, method: .delete, headers: HTTPHeaders(newHeaders)).responseData { response in
+            switch response.result {
+            case .success(_):
+                self.fetchFavorites()
+                print("Favorite successfully removed from backend")
+            case .failure(let err):
+                print(err)
+            }
         }
     }
-
-
 }

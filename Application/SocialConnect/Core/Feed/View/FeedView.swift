@@ -5,15 +5,16 @@ struct FeedView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Background()
-                
+            VStack {
                 if !viewModel.posts.isEmpty {
                     ScrollView(showsIndicators: false) {
                         LazyVStack {
                             ForEach(viewModel.posts) { post in
                                 NavigationLink(value: post) {
                                     PostCell(post: post)
+                                        .navigationDestination(for: Post.self) { post in
+                                            PostDetailsView(post: post)
+                                        }
                                 }
                             }
                             .padding(.top)
@@ -21,9 +22,6 @@ struct FeedView: View {
                     }
                     .refreshable {
                         Task { await viewModel.fetchPosts() }
-                    }
-                    .overlay {
-                        if viewModel.isLoading { ProgressView() }
                     }
                     .navigationTitle("SocialConnect")
                     .navigationBarTitleDisplayMode(.inline)
@@ -63,6 +61,7 @@ struct FeedView: View {
                     .padding([.top, .horizontal])
                 }
             }
+            .background(Background())
         }
     }
 }

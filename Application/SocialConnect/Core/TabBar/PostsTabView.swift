@@ -31,7 +31,7 @@ struct PostsTabView: View {
                     .tag(2)
             }
 
-            ActivityView()
+            FavoriteView()
                 .tabItem {
                     Image(systemName: selectedTab == 3 ? "heart.fill" : "heart")
                     .imageScale(.large)

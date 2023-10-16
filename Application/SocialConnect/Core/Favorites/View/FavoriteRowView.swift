@@ -1,42 +1,56 @@
 import SwiftUI
 
-struct ActivityRowView: View {
+struct FavoriteRowView: View {
     let favorite: Favorite
+    @ObservedObject var viewModel: FavoriteViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(spacing: 16) {
-                NavigationLink(value: favorite.favoriteId) {
-                    ZStack(alignment: .bottomTrailing) {
-                        OrganizationCircularLogoImageView(logoUrl: favorite.logoUrl, size: .large)
-                    }
-                }
-
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 4) {
-                        VStack {
-                            Text(favorite.name)
-                                .font(.title2)
-                                .bold()
-                                .foregroundColor(Color.theme.primaryText)
-
-                            Text(favorite.description ?? "No description for this organization")
-                                .font(.footnote)
-                                .foregroundColor(.gray)
+        NavigationStack {
+            VStack(alignment: .leading) {
+                HStack(spacing: 16) {
+                    NavigationLink(value: favorite.organizationId) {
+                        ZStack(alignment: .bottomTrailing) {
+                            OrganizationCircularLogoImageView(logoUrl: favorite.logoUrl, size: .large)
+                                .navigationDestination(for: Organization.self) { organization in
+                                    OrganizationProfileView(organization: organization)
+                                }
                         }
                     }
-                }
 
-                Spacer()
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 4) {
+                            VStack {
+                                Text(favorite.name)
+                                    .font(.title2)
+                                    .bold()
+                                    .foregroundColor(Color.theme.primaryText)
+
+                                Text(favorite.description ?? "No description for this organization")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            Button {
+                                viewModel.removeFavorite(favoriteId: favorite.id)
+                            } label: {
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                            .padding()
+                        }
+                    }
+
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 8)
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
         }
     }
 }
 
-struct ActivityRowView_Previews: PreviewProvider {
+struct FavoriteRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityRowView(favorite: dev.favorite)
+        FavoriteRowView(favorite: dev.favorite, viewModel: FavoriteViewModel())
     }
 }

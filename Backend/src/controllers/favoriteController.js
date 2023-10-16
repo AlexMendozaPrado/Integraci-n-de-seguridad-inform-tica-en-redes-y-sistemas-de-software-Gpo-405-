@@ -35,12 +35,13 @@ exports.getAllFavorites = async (req, res) => {
 
     const favorites = await Favorite.find({ userId });
 
+    // Map all organizations from favorites and keep both ids in the object
     const organizations = await Promise.all(
       favorites.map(async (favorite) => {
         const organization = await Organization.findById(
           favorite.organizationId
         );
-        return organization;
+        return { ...organization._doc, organizationId: organization._id, _id: favorite._id };
       })
     );
 
