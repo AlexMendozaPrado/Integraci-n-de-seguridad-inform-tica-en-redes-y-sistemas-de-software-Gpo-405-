@@ -13,10 +13,13 @@ struct OrganizationRegistrationView: View {
     
     @AppStorage("token") var token: String = ""
     @StateObject var viewModel = RegistrationViewModel()
-    @State var registerOrgInfo: RegisterOrgInfo = RegisterOrgInfo(name: "", userName: "", rfc: "", schedule: "", phoneNumber: "", email: "", desc: "", logourl: "", street: "", number: "", city: "", state: "", zipcode: "", country: "", Tags: [])
+    @State var registerOrgInfo: RegisterOrgInfo = RegisterOrgInfo(name: "", userName: "", rfc: "", schedule: "", phoneNumber: "", email: "", desc: "", logourl: "", street: "", number: "", city: "", state: "", zipcode: "", country: "", Tags: [], password: "", facebook: "", instagram: "", twitter: "")
     
     @State var isAuthenticating: Bool = false
     @State var showAlert: Bool = false
+    @State private var selectedTags: Set<Tag> = []
+    @State var selectedTagIDs: [String] = []
+    
     
     var body: some View {
         ScrollView{
@@ -38,6 +41,9 @@ struct OrganizationRegistrationView: View {
                     .modifier(ThreadsTextFieldModifier())
                 
                 TextField("Nombre de Usuario", text: $registerOrgInfo.userName)
+                    .modifier(ThreadsTextFieldModifier())
+                
+                TextField("Contraseña", text: $registerOrgInfo.password)
                     .modifier(ThreadsTextFieldModifier())
                 
                 TextField("RFC", text: $registerOrgInfo.rfc)
@@ -63,6 +69,21 @@ struct OrganizationRegistrationView: View {
                 TextField("Horario de Atención", text: $registerOrgInfo.schedule)
                     .modifier(ThreadsTextFieldModifier())
                 
+                HStack{
+                    Text("Link a Redes Sociales")
+                        .font(.title2)
+                        .padding(.leading, 30)
+                    Spacer()
+                }
+                
+                TextField("Facebook", text: $registerOrgInfo.facebook)
+                    .modifier(ThreadsTextFieldModifier())
+                
+                TextField("Instagram", text: $registerOrgInfo.instagram)
+                    .modifier(ThreadsTextFieldModifier())
+                
+                TextField("Twitter", text: $registerOrgInfo.twitter)
+                    .modifier(ThreadsTextFieldModifier())
                 
                 HStack{
                     Text("Dirección")
@@ -103,62 +124,113 @@ struct OrganizationRegistrationView: View {
                         .padding(.leading, 30)
                     Spacer()
                 }
+                ScrollView(.horizontal){
+                    HStack{
+                        ForEach(viewModel.tags, id: \.self) { tag in
+                            TagView(tag: tag, isSelected: selectedTags.contains(tag))
+                                .onTapGesture {
+                                    if selectedTags.contains(tag) {
+                                        selectedTags.remove(tag)
+                                    } else {
+                                        selectedTags.insert(tag)
+                                    }
+                                }
+                        }
+                    }
+                }
+                .padding(10)
+                
                 Button{
-                    
+                    for tag in selectedTags{
+                        selectedTagIDs.append(tag.id)
+                    }
+                    registerOrg()
                 } label: {
                     Text("Sign up")
                         .foregroundColor(Color.theme.primaryBackground)
                         .modifier(PostsButtonModifier())
                 }
+                .disabled(
+                    registerOrgInfo.name.isEmpty ||
+                    registerOrgInfo.userName.isEmpty ||
+                    registerOrgInfo.password.isEmpty ||
+                    registerOrgInfo.rfc.isEmpty ||
+                    registerOrgInfo.desc.isEmpty ||
+                    registerOrgInfo.logourl.isEmpty ||
+                    registerOrgInfo.email.isEmpty ||
+                    registerOrgInfo.phoneNumber.isEmpty ||
+                    registerOrgInfo.schedule.isEmpty ||
+                    registerOrgInfo.street.isEmpty ||
+                    registerOrgInfo.number.isEmpty ||
+                    registerOrgInfo.city.isEmpty ||
+                    registerOrgInfo.state.isEmpty ||
+                    registerOrgInfo.zipcode.isEmpty ||
+                    registerOrgInfo.country.isEmpty
+                )
+                .alert(isPresented: $showAlert) {
+                            Alert(title: Text("Exito!"), message: Text("Organización creada con éxito"), dismissButton: .default(Text("OK")))
+                        }
                 
             }
         }
     }
     func registerOrg() {
-     var newHeaders = mongoHeaders
-     newHeaders["Authorization"] = "Bearer \(token)"
-        let Parameters = [
-            "name" : registerOrgInfo.name,
-            "description" : registerOrgInfo.desc,
-            "password" : "Admin@123",
-            "logourl" : registerOrgInfo.logourl,
-            /*/"address": [
+        var newHeaders = HTTPHeaders(mongoHeaders)
+            newHeaders.add(name: "Authorization", value: "Bearer \(token)")
+        
+        let parameters: [String: Any] = [
+            "name": registerOrgInfo.name,
+            "userName": registerOrgInfo.userName,
+            "description": registerOrgInfo.desc,
+            "password": registerOrgInfo.password,
+            "logoUrl": registerOrgInfo.logourl,
+            "videoUrl": "",
+            "bannerUrl": "",
+            "rfc": registerOrgInfo.rfc,
+            "schedule": registerOrgInfo.schedule,
+            "address": [
                 "street1": registerOrgInfo.street,
                 "street2": registerOrgInfo.number,
                 "city": registerOrgInfo.city,
                 "state": registerOrgInfo.state,
                 "zipCode": registerOrgInfo.zipcode,
                 "country": registerOrgInfo.country
-            ]
-            "contact" : [
-                "email": "string",
-                "phoneNumber": "string"
             ],
-             "socialNetworks": [
-                 {
-                   "name": "string",
-                   "url": "string"
-                 }
-               ],
-             "role": "string",
-               "tags": [
-                 "string"
-               ]*/
-
+            "contact": [
+                "email": registerOrgInfo.email,
+                "phoneNumber": registerOrgInfo.phoneNumber
+            ],
+            "socialNetworks": [
+                [
+                    "name": "Facebook",
+                    "url": registerOrgInfo.facebook
+                ],
+                [
+                    "name": "Twitter",
+                    "url": registerOrgInfo.twitter
+                ],
+                [
+                    "name": "Instagram",
+                    "url": registerOrgInfo.instagram
+                ]
+            ],
+            "role": "6510eb0613e234b63bde168d",
+            "tags": selectedTagIDs
         ]
         
-       AF.request("\(mongoBaseUrl)/organizations", method: .post, parameters: Parameters,  encoding: JSONEncoding.default, headers: HTTPHeaders(newHeaders)).responseData { response in
-            switch response.result {
-            case .success(let value):
-                print(value)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        AF.request("\(mongoBaseUrl)/organizations", method: .post, parameters: parameters,  encoding: JSONEncoding.default, headers: newHeaders).responseData { response in
+             switch response.result {
+             case .success(let value):
+                 print(value)
+                 showAlert = true
+             case .failure(let error):
+                 print(error)
+             }
+         }
     }
+
 }
 
 #Preview {
     OrganizationRegistrationView()
 }
-

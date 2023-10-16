@@ -24,4 +24,8 @@ struct RegisterOrgInfo: Codable {
     var zipcode: String
     var country: String
     var Tags: [String]
+    var password: String
+    var facebook: String
+    var instagram: String
+    var twitter: String
 }
