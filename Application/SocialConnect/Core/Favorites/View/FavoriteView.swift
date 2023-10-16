@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct ActivityView: View {
-    @StateObject var viewModel = ActivityViewModel()
+struct FavoriteView: View {
+    @StateObject var viewModel = FavoriteViewModel()
 
     var body: some View {
         NavigationStack {
@@ -10,21 +10,22 @@ struct ActivityView: View {
                     LazyVStack(spacing: 16) {
                         ForEach(viewModel.favorites) { favorite in
                             HStack {
-                                NavigationLink(value: favorite.favoriteId) {
-                                    ActivityRowView(favorite: favorite)
-                                }
-
-                                Button {
-                                    Task { try await viewModel.removeFavorite(favoriteId: favorite.favoriteId) }
-                                } label: {
-                                    Image(systemName: "star.fill")
-                                        .foregroundColor(.yellow)
-                                }
-                                .padding()
-
-                                Spacer()
+                                FavoriteRowView(favorite: favorite, viewModel: viewModel)
                             }
                             Divider()
+                        }
+                    }
+                }
+                .refreshable {
+                    viewModel.fetchFavorites()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            Task { viewModel.fetchFavorites() }
+                        } label: {
+                            Image(systemName: "arrow.counterclockwise")
+                                .foregroundColor(Color.theme.primaryText)
                         }
                     }
                 }
@@ -35,12 +36,13 @@ struct ActivityView: View {
                 }
             }
             .navigationTitle("Favoritos")
+            .background(Background())
         }
     }
 }
 
-struct ActivityView_Previews: PreviewProvider {
+struct FavoriteView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityView()
+        FavoriteView()
     }
 }

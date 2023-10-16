@@ -86,6 +86,7 @@ struct CurrentUserProfileContentView: View {
                 }
             }
         }
+        .background(Background())
         .sheet(item: $sheetConfig, content: { config in
             switch config {
             case .editProfile:

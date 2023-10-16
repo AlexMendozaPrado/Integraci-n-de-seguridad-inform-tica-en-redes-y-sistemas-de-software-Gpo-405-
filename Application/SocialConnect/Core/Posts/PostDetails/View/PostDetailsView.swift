@@ -2,8 +2,8 @@ import SwiftUI
 import WebKit
 
 struct PostDetailsView: View {
-    @State private var showReplySheet = false
     @StateObject var viewModel: PostDetailsViewModel
+    @State private var showReplySheet = false
     
     private var post: Post {
         return viewModel.post
@@ -40,6 +40,11 @@ struct PostDetailsView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(post.content)
                         .font(.subheadline)
+                    
+                    if !post.videoUrl.isEmpty {
+                        WebView(urlString: post.videoUrl)
+                            .frame(height: 200)
+                    }
                 }
                 
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -48,13 +53,36 @@ struct PostDetailsView: View {
             Divider()
                 .padding(.vertical)
             
-            LazyVStack(spacing: 16) {
-                ForEach(viewModel.replies) { reply in
-                    PostCell(post: viewModel.post)
+            Button {
+                if viewModel.starClicked {
+                    viewModel.unfollowOrganization()
+                } else {
+                    viewModel.followOrganization()
+                }
+            } label: {
+                ZStack{
+                    Color.black
+                        .cornerRadius(8)
+                    
+                    HStack {
+                        if viewModel.starClicked {
+                            Text("Dejar de seguir")
+                                .tint(Color.white)
+                        } else {
+                            Text("Comenzar a Seguir")
+                                .tint(Color.white)
+                        }
+                        
+                        Image(systemName: viewModel.starClicked ? "star.fill" : "star")
+                            .foregroundColor(viewModel.starClicked ? .yellow : .white)
+                            .frame(width: 33, height: 30)
+                            .cornerRadius(8)
+                    }
                 }
             }
         }
         .padding()
+        .background(Background())
         .navigationTitle("Post")
         .navigationBarTitleDisplayMode(.inline)
     }
