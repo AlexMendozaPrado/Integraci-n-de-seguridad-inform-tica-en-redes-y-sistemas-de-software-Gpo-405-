@@ -35,6 +35,7 @@ exports.createOrganization = async (req, res) => {
             password: hashedPassword,
             tags,
             role,
+            imageUrl: logoUrl,
         });
 
         const savedUser = await newUser.save();

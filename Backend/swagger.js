@@ -12,7 +12,7 @@ const options = {
     },
   },
   // Specify the paths to the API routes
-  apis: ["./src/routes/*.js"],
+  apis: ["Backend/src/routes/*.js"],
 };
 
 // Generate Swagger documentation
