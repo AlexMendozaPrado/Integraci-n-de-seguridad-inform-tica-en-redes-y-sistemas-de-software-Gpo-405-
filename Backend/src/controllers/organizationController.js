@@ -93,9 +93,7 @@ exports.getAllOrganizations = async (req, res) => {
             } else {
                 const organizations = await Organization.find();
 
-                const filteredOrganizations = organizations.filter(organization => !favoriteIds.includes(organization._id.toString()));
-
-                return res.status(200).json(filteredOrganizations);
+                return res.status(200).json(organizations);
             }
         }
     } catch (error) {
