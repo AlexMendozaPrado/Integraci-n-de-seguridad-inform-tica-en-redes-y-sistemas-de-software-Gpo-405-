@@ -21,6 +21,7 @@ class FeedViewModel: ObservableObject {
             switch response.result {
             case .success(let value):
                 let json = try! JSON(data: value)
+                print(json)
                 let fetchedPosts = json.arrayValue.map { postJson -> Post? in
                     if let post = Post(json: postJson) {
                         return post

@@ -9,5 +9,6 @@ import Foundation
 
 struct LoginInfo: Codable {
     var email: String
+    var phone: String
     var password: String
 }

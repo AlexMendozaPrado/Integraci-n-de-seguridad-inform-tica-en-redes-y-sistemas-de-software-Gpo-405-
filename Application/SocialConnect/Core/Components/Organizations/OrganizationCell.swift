@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrganizationCell: View {
     let organization: Organization
+    let distance: Double? // Distancia en kilómetros
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -18,13 +19,15 @@ struct OrganizationCell: View {
                 VStack(alignment: .leading) {
                     Text(organization.name)
                         .bold()
+                    if let distance = distance {
+                        Text("Te queda a \(distance / 1000, specifier: "%.2f") km")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                    }
                 }
                 .font(.footnote)
                 
                 Spacer()
-                
-                
-
             }
             .padding(.horizontal)
             
@@ -37,6 +40,7 @@ struct OrganizationCell: View {
 
 struct OrganizationCell_Previews: PreviewProvider {
     static var previews: some View {
-        OrganizationCell(organization: dev.organization)
+        // Asegúrate de proporcionar un objeto de organización adecuado aquí para la vista previa
+        OrganizationCell(organization: dev.organization, distance: 5.23)
     }
 }

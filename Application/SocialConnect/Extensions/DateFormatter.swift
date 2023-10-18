@@ -8,19 +8,22 @@
 import Foundation
 
 extension DateFormatter {
-    static let iso8601Full: DateFormatter = {
+    static let mongoDB: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
     
-    static var shortDate: DateFormatter {
+    static let publicationDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
         return formatter
-    }
+    }()
+    
+    static let organizationDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }

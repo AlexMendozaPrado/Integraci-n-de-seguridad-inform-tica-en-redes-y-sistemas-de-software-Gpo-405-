@@ -15,11 +15,13 @@ class LoginViewModel: ObservableObject {
     @AppStorage("userImageUrl") var userImageUrl: String = ""
     @AppStorage("isOrganization") var isOrganization: Bool = false
     
-    @Published var loginInfo: LoginInfo = LoginInfo(email: "", password: "")
+    @Published var loginInfo: LoginInfo = LoginInfo(email: "", phone: "", password: "")
     @Published var isAuthenticating = false
     @Published var showAlert = false
     
     func login() {
+        loginInfo.email = loginInfo.phone
+        
         AF.request("\(mongoBaseUrl)/auth/login", method: .post, parameters: loginInfo, encoder: .json).response { response in
             switch response.result {
             case .success(let data):

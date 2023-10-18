@@ -18,6 +18,7 @@ struct ExploreView: View {
                         ProgressView()
                     }
                 }
+                .background(Background())
             }
         }
     }

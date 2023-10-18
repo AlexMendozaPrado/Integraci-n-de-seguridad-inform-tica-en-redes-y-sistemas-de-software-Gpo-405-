@@ -81,8 +81,22 @@ extension Organization {
         self.videoUrl = json["videoUrl"].string
         self.bannerUrl = bannerUrl
         self.tags = tags
-        self.createdAt = Date.now
-        self.updatedAt = Date.now
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        if let createdAtString = json["createdAt"].string, let createdAtDate = dateFormatter.date(from: createdAtString) {
+            self.createdAt = createdAtDate
+        } else {
+            print("Failed to parse createdAt")
+            return nil
+        }
+
+        if let updatedAtString = json["updatedAt"].string, let updatedAtDate = dateFormatter.date(from: updatedAtString) {
+            self.updatedAt = updatedAtDate
+        } else {
+            print("Failed to parse updatedAt")
+            return nil
+        }
     }
 }
 

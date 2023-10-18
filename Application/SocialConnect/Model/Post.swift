@@ -49,6 +49,12 @@ extension Post {
             print("Failed to parse videoUrl")
             return nil
         }
+        
+        guard let createdAtString = json["createdAt"].string,
+              let createdAtDate = DateFormatter.mongoDB.date(from: createdAtString) else {
+            print("Failed to parse createdAt date")
+            return nil
+        }
                 
         self.id = id
         self.organization = organizationData
@@ -56,6 +62,6 @@ extension Post {
         self.postType = postType
         self.content = content
         self.videoUrl = videoUrl
-        self.createdAt = Date.now
+        self.createdAt = createdAtDate
     }
 }

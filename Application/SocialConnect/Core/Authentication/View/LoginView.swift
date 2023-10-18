@@ -18,7 +18,7 @@ struct LoginView: View {
                     .padding()
                 
                 VStack {
-                    TextField("Ingresa tu correo", text: $viewModel.loginInfo.email)
+                    TextField("Ingresa tu teléfono", text: $viewModel.loginInfo.phone)
                         .autocapitalization(.none)
                         .modifier(ThreadsTextFieldModifier())
                     
@@ -39,8 +39,8 @@ struct LoginView: View {
                             }
                         }
                 }
-                .disabled(viewModel.isAuthenticating || viewModel.loginInfo.password.isEmpty || viewModel.loginInfo.email.isEmpty)
-                .opacity(viewModel.isAuthenticating || !viewModel.loginInfo.password.isEmpty || !viewModel.loginInfo.email.isEmpty ? 1 : 0.7)
+                .disabled(viewModel.isAuthenticating || viewModel.loginInfo.password.isEmpty || viewModel.loginInfo.phone.isEmpty)
+                .opacity(viewModel.isAuthenticating || !viewModel.loginInfo.password.isEmpty || !viewModel.loginInfo.phone.isEmpty ? 1 : 0.7)
                 .padding(.vertical)
                 
                 Spacer()
