@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 enum CurrentUserProfileSheetConfig: Identifiable {
     case editProfile
@@ -9,15 +10,7 @@ enum CurrentUserProfileSheetConfig: Identifiable {
 struct CurrentUserProfileContentView: View {
     @StateObject var viewModel = CurrentUserProfileViewModel()
     @State private var sheetConfig: CurrentUserProfileSheetConfig?
-    
-    @Binding var userId: String
-    @Binding var userEmail: String
-    @Binding var userFirstName: String
-    @Binding var userLastName: String
-    @Binding var userPhoneNumber: String
-    @Binding var userRole: String
-    @Binding var userImageUrl: String
-    @Binding var isOrganization: Bool
+    @State private var imageLoadSuccess: Bool? = nil
     
     private var user: User? {
         return viewModel.currentUser
@@ -25,83 +18,33 @@ struct CurrentUserProfileContentView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            HStack {
-                Spacer()
-                
-                NavigationLink {
-                    SettingsView()
-                } label: {
-                    Image(systemName: "list.bullet")
-                        .foregroundColor(Color.theme.primaryText)
-                }
-                .padding(.leading, 16)
-                .padding(.trailing, 8)
-            }
-            .padding(.all)
-            
-            VStack(spacing: 20) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 16) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text((user?.firstName ?? "") + (user?.lastName ?? ""))
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            
-                            Text(user?.email ?? "")
-                                .font(.subheadline)
-                        }
-                        
-                        if let phoneNumber = user?.phoneNumber {
-                            Text(phoneNumber)
-                                .font(.footnote)
-                        }
-                    }
-                    
+            VStack {
+                HStack {
                     Spacer()
                     
-                    CircularProfileImageView(logoUrl: user?.imageUrl, size: .medium)
-                }
-                
-                HStack {
-                    Button(action: {
-                        sheetConfig = .editProfile
-                    }) {
-                        HStack {
-                            Image(systemName: "pencil")
-                            Text("Modificar perfil")
-                        }
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .frame(width: 175, height: 32)
-                        .foregroundColor(.white)
-                        .background(Color.cyan)
-                        .cornerRadius(10)
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "list.bullet")
+                            .foregroundColor(Color.theme.primaryText)
                     }
-                    
-                    Button(action: {
-                    }) {
-                        HStack {
-                            Image(systemName: "square.and.arrow.up")
-                            Text("Compartir Perfil")
-                        }
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .frame(width: 175, height: 32)
-                        .foregroundColor(.white)
-                        .background(Color.cyan)
-                        .cornerRadius(10)
-                    }
+                    .padding(.trailing)
                 }
+                .padding(.all)
                 
-                Divider()
-                
-                displayAppStorageData()
-                
-                if let user = user {
-                    UserContentListView(viewModel: UserContentListViewModel(user: user))
+                VStack(alignment: .leading) {
+                    profileHeaderView()
+                        .padding([.horizontal, .top])
+
+                    actionButtonsView()
+
+                    userInfoView()
+
+                    Divider()
                 }
+                .padding(.horizontal)
+                .padding(.bottom)
             }
-            .padding(.all)
         }
         .background(Background())
         .sheet(item: $sheetConfig, content: { config in
@@ -113,72 +56,113 @@ struct CurrentUserProfileContentView: View {
         })
     }
     
-    func displayAppStorageData() -> some View {
-        VStack(spacing: 15) {
-            HStack {
-                Image(systemName: "envelope")
-                    .foregroundColor(.cyan)
-                Text("E-mail: \(userEmail)")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color("PrimaryText"))
-            }
-            
-            HStack {
-                Image(systemName: "person")
-                    .foregroundColor(.cyan)
-                Text("Nombre: \(userFirstName) \(userLastName)")
-                    .font(.title3)
-                    .fontWeight(.regular)
-                    .foregroundColor(Color("PrimaryText"))
-            }
-            .padding(.horizontal)
-            
-            HStack {
-                Image(systemName: "phone")
-                    .foregroundColor(.cyan)
-                Text("Telefono: \(userPhoneNumber)")
-                    .font(.title3)
-                    .foregroundColor(Color("PrimaryText"))
-            }
-            
-            if !userImageUrl.isEmpty {
-                AsyncImage(url: URL(string: userImageUrl)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 200, height: 200)
-                            .clipShape(Circle())
-                            .shadow(color: Color.gray, radius: 10, x: 0, y: 0)
-                    case .failure:
-                        Image(systemName: "person.crop.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150, height: 150)
-                            .foregroundColor(.cyan)
+    private func profileHeaderView() -> some View {
+        HStack {
+            if viewModel.userImageUrl.isEmpty || imageLoadSuccess == false {
+                Color.gray
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .frame(width: 115)
+                    .padding(.leading, 5)
+            } else {
+                KFImage(URL(string: viewModel.userImageUrl))
+                    .resizable()
+                    .scaledToFit()
+                    .onAppear {
+                        KingfisherManager.shared.retrieveImage(with: URL(string: viewModel.userImageUrl)!) { result in
+                            switch result {
+                            case .success(_):
+                                imageLoadSuccess = true
+                            case .failure(_):
+                                imageLoadSuccess = false
+                            }
+                        }
                     }
+                    .clipShape(Circle())
+                    .frame(width: 115)
+                    .padding(.leading, 5)
+            }
+            
+            Spacer()
+
+            VStack(alignment: .trailing) {
+                Text("\(viewModel.userFirstName) \(viewModel.userLastName)")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("PrimaryText"))
+                    .lineLimit(nil)
+            }
+            .padding(.all, 0)
+            
+            Spacer()
+        }
+        .padding()
+        .background(Color.white.opacity(0.4))
+        .cornerRadius(8)
+    }
+    
+    private func actionButtonsView() -> some View {
+        HStack {
+            Button(action: {
+                sheetConfig = .editProfile
+            }) {
+                HStack {
+                    Image(systemName: "pencil")
+                    Text("Modificar perfil")
                 }
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .frame(width: 175, height: 32)
+                .foregroundColor(.white)
+                .background(Color.cyan)
+                .cornerRadius(10)
+            }
+            
+            Button(action: {
+            }) {
+                ShareLink(item: "https://www.socialconnect.com/user/\(viewModel.userId)", label: {
+                    HStack {
+                        Image(systemName: "square.and.arrow.up")
+                        Text("Compartir Perfil")
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .frame(width: 175, height: 32)
+                    .foregroundColor(.white)
+                    .background(Color.cyan)
+                    .cornerRadius(10)
+                })
             }
         }
         .padding()
     }
+    
+    private func userInfoView() -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if !viewModel.userEmail.isEmpty {
+                Label("Correo: \(viewModel.userEmail)", systemImage: "mail.fill")
+                    .foregroundColor(Color("PrimaryText"))
+            }
+            
+            if !viewModel.userPhoneNumber.isEmpty {
+                Label("Teléfono: \(viewModel.userPhoneNumber)", systemImage: "phone.fill")
+                    .foregroundColor(Color("PrimaryText"))
+            }
+
+            if !viewModel.userRole.isEmpty {
+                Label("Rol: \(viewModel.userRole)", systemImage: "person.fill")
+                    .foregroundColor(Color("PrimaryText"))
+            }
+
+            Label("Organización: \(viewModel.isOrganization ? "Si" : "No")", systemImage: "building.2.fill")
+                .foregroundColor(Color("PrimaryText"))
+        }
+        .padding(.horizontal)
+    }
 }
 
 struct CurrentUserProfileContentView_Previews: PreviewProvider {
-    @State static var dummyUserId: String = "12345"
-    @State static var dummyUserEmail: String = "email@example.com"
-    @State static var dummyUserFirstName: String = "John"
-    @State static var dummyUserLastName: String = "Doe"
-    @State static var dummyUserPhoneNumber: String = "+1234567890"
-    @State static var dummyUserRole: String = "User"
-    @State static var dummyUserImageUrl: String = "https://via.placeholder.com/150"
-    @State static var dummyIsOrganization: Bool = false
-    
     static var previews: some View {
-        CurrentUserProfileContentView(userId: $dummyUserId, userEmail: $dummyUserEmail, userFirstName: $dummyUserFirstName, userLastName: $dummyUserLastName, userPhoneNumber: $dummyUserPhoneNumber, userRole: $dummyUserRole, userImageUrl: $dummyUserImageUrl, isOrganization: $dummyIsOrganization)
+        CurrentUserProfileContentView()
     }
 }

@@ -56,6 +56,27 @@
 
 /**
  * @swagger
+ * /users/get/tags:
+ *   get:
+ *     summary: Get current user's tags
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/models/Tag'
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
  * /users:
  *   post:
  *     summary: Create a new user
@@ -139,6 +160,38 @@
 
 /**
  * @swagger
+ * /users/update/tags:
+ *   put:
+ *     summary: Update a user's tags by ID
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/models/User'
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
  * /users/{id}:
  *   delete:
  *     summary: Delete a user by ID
@@ -186,11 +239,24 @@ router.get(
   userController.getUserById
 );
 
+router.get(
+  "/get/tags",
+  passport.authenticate("jwt", { session: false }),
+  userController.getUserTags
+);
+
 // Update a user by ID
 router.put(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   userController.updateUser
+);
+
+// Update a user's tags by ID
+router.put(
+  "/update/tags",
+  passport.authenticate("jwt", { session: false }),
+  userController.updateUserTags
 );
 
 // Delete a user by ID

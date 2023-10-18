@@ -9,11 +9,11 @@ enum SettingsOptions: Int, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .notifications: return "Notifications"
-        case .privacy: return "Privacy"
-        case .account: return "Account"
-        case .help: return "Help"
-        case .about: return "About"
+        case .notifications: return "Notificaciones"
+        case .privacy: return "Privacidad"
+        case .account: return "Cuenta"
+        case .help: return "Ayuda"
+        case .about: return "Acerca de"
         }
     }
     
