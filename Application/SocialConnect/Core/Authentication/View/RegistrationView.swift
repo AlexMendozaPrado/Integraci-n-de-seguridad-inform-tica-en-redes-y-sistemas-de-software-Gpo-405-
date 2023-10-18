@@ -1,19 +1,22 @@
 import SwiftUI
+import Foundation
+import Alamofire
+import SwiftyJSON
 
 // Definición de la vista RegistrationView
 struct RegistrationView: View {
-    // Se crea un objeto de vista modelo para la gestión de datos relacionados con el registro
+    @AppStorage("token") var token: String = ""
     @StateObject var viewModel = RegistrationViewModel()
-    // Se obtiene el entorno de cierre para permitir el cierre de la vista
     @Environment(\.dismiss) var dismiss
+    @State private var selectedTags: Set<Tag> = []
+    @State var selectedTagIDs: [String] = []
+    @State var rePassword: String = ""
+    @State var shouldShowLoginView = false
     
-    // Cuerpo de la vista
     var body: some View {
         NavigationView {
         VStack {
             Spacer()
-            
-            // Se muestra el logo de la aplicación
             Image("Yconnect")
                 .resizable()
                 .scaledToFit()
@@ -23,32 +26,58 @@ struct RegistrationView: View {
             // Se crean campos de texto para el ingreso de información de registro
             VStack {
                 NavigationLink{
-                                    OrganizationRegistrationView()
-                                } label: {
-                                    Text("Register as Organization")
-                                        .foregroundColor(Color.theme.primaryBackground)
-                                        .modifier(PostsButtonModifier())
+                    OrganizationRegistrationView()
+                } label: {
+                    Text("Registrarse como Organización")
+                        .foregroundColor(Color.theme.primaryBackground)
+                        .modifier(PostsButtonModifier())
+                }
+                
+                TextField("Ingrese su numero de telefono", text: $viewModel.phonenumber)
+                    .autocapitalization(.none)
+                    .modifier(ThreadsTextFieldModifier())
+                
+                SecureField("Ingrese su password", text: $viewModel.password)
+                    .modifier(ThreadsTextFieldModifier())
+                SecureField("Reingrese su password", text: $rePassword)
+                    .modifier(ThreadsTextFieldModifier())
+                
+                HStack{
+                    Text("Seleccionar Tags de Interés")
+                        .padding(.leading, 30)
+                        .font(.title2)
+                    Spacer()
+                }
+    
+                ScrollView(.horizontal){
+                    HStack{
+                        ForEach(viewModel.tags, id: \.self) { tag in
+                            TagView(tag: tag, isSelected: selectedTags.contains(tag))
+                                .onTapGesture {
+                                    if selectedTags.contains(tag) {
+                                        selectedTags.remove(tag)
+                                    } else {
+                                        selectedTags.insert(tag)
+                                    }
                                 }
-                
-                TextField("Enter your email", text: $viewModel.email)
-                    .autocapitalization(.none)
-                    .modifier(ThreadsTextFieldModifier())
-                
-                SecureField("Enter your password", text: $viewModel.password)
-                    .modifier(ThreadsTextFieldModifier())
-                
-                TextField("Enter your full name", text: $viewModel.fullname)
-                    .autocapitalization(.none)
-                    .modifier(ThreadsTextFieldModifier())
-                
-                TextField("Enter your username", text: $viewModel.username)
-                    .autocapitalization(.none)
-                    .modifier(ThreadsTextFieldModifier())
+                        }
+                    }
+                }
+                .padding(10)
             }
             
             // Botón para enviar la información de registro
             Button {
-                Task { viewModel.createUser() }
+                if formIsValid {
+                    for tag in selectedTags{
+                                        selectedTagIDs.append(tag.id)
+                                    }
+                        createUser()
+                    dismiss()
+                    } else {
+                        // If the form is not valid, show an alert
+                        viewModel.showAlert = true
+                    }
             } label: {
                 Text(viewModel.isAuthenticating ? "" : "Sign up")
                     .foregroundColor(Color.theme.primaryBackground)
@@ -61,8 +90,6 @@ struct RegistrationView: View {
                     }
                     
             }
-            .disabled(viewModel.isAuthenticating || !formIsValid) // Se desactiva el botón si no se cumple la validación del formulario
-            .opacity(formIsValid ? 1 : 0.7)
             .padding(.vertical)
             
             Spacer()
@@ -88,8 +115,35 @@ struct RegistrationView: View {
         .alert(isPresented: $viewModel.showAlert) {
             // Se muestra una alerta en caso de error de autenticación
             Alert(title: Text("Error"),
-                  message: Text("Usuario y/o contraseña incorrecta"))
+                  message: Text("Asegurate de llenar los campos correctamente."))
         }
+    }
+    
+    func createUser() {
+        var newHeaders = HTTPHeaders(mongoHeaders)
+            newHeaders.add(name: "Authorization", value: "Bearer \(token)")
+        
+        let parameters: [String: Any] = [
+            "firstName": "",
+            "lastName": "",
+            "phoneNumber": viewModel.phonenumber,
+            "email": "",
+            "password": viewModel.password,
+            "tags": selectedTagIDs,
+            "role": "6510eb0613e234b63bde168d",
+            "imageUrl": ""
+        ]
+        
+        AF.request("\(mongoBaseUrl)/users", method: .post, parameters: parameters,  encoding: JSONEncoding.default, headers: newHeaders).responseData { response in
+             switch response.result {
+             case .success(let value):
+                 print(value)
+                 shouldShowLoginView = true
+                 
+             case .failure(let error):
+                 print(error)
+             }
+         }
     }
 }
 
@@ -98,11 +152,11 @@ struct RegistrationView: View {
 extension RegistrationView: AuthenticationFormProtocol {
     var formIsValid: Bool {
         // La validación del formulario verifica que los campos no estén vacíos y que el campo de correo electrónico contenga un "@" y que la contraseña sea lo suficientemente larga.
-        return !viewModel.email.isEmpty
-        && viewModel.email.contains("@")
+        return !viewModel.phonenumber.isEmpty
         && !viewModel.password.isEmpty
-        && !viewModel.fullname.isEmpty
         && viewModel.password.count > 5
+        && viewModel.password == rePassword
+        && viewModel.phonenumber.allSatisfy { $0.isNumber }
     }
 }
 

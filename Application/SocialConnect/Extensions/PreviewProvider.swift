@@ -42,7 +42,7 @@ class DeveloperPreview {
         title: "Test post title",
         postType: "Test post type",
         content: "ñalksjdfñlaskjdfñlkasjdfñlkjsadl jsañldk jsaldkfjsahfaskdjf lñksjfl sajdf ñasj fñ jsdlfk jasdkf jñalsdfj ",
-        videoUrl: "https://www.youtube.com/watch?v=SoJ-L9peEIQ",
+        videoUrl: "https://drive.google.com/uc?export=view&id=1VUbButsjmVOGIIcgV9Rynzb36WN1mEJA",
         createdAt: Date.now
     )
     
@@ -58,7 +58,7 @@ class DeveloperPreview {
     )
     
     var organization = Organization(
-        id: "6511244b9559b458b7518a53",
+        id: "65263953d45fed8455675e77",
         userId: "test2",
         name: "Frisa",
         userName: "Frisa",
@@ -83,7 +83,7 @@ class DeveloperPreview {
         )],
         logoUrl: "https://static.guiaongs.org/wp-content/uploads/2015/09/so%C3%B1ar-despierto-360x336.jpg",
         videoUrl: "https://www.youtube.com/watch?v=SoJ-L9peEIQ",
-        bannerUrl: "https://drive.google.com/uc?export=view&id=1wC7mtwNGiWVO24ciX3DQmI0lTS6QZiPn",
+        bannerUrl: "https://drive.google.com/uc?export=view&id=1ZWhn-zlCy3ZsS7gNcE0-b_JLxxhPFjkJ",
         tags: ["6510b9fb078006769df6cb0c"],
         createdAt: Date(),
         updatedAt: Date()

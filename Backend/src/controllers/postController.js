@@ -71,10 +71,6 @@ exports.getAllPosts = async (req, res) => {
       "Advj-asdlfjoeKAasdjflkekalskldjkcvras-s"
     ).sub._id;
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
     const favorites = await Favorite.find({ userId });
     const organizationIds = favorites.map(
       (favorite) => favorite.organizationId
@@ -94,7 +90,6 @@ exports.getAllPosts = async (req, res) => {
 
     const taggedOrganizationIds = taggedOrganizations.map((org) => org._id);
 
-
     const posts = await Post.find({
       $or: [
         { organizationId: { $in: organizationIds } },
@@ -102,11 +97,9 @@ exports.getAllPosts = async (req, res) => {
         { organizationId: userId },
       ],
     })
-      .skip(skip)
-      .limit(limit);
 
     if (!posts.length)
-      return res.status(200).json({ message: "No more posts available" });
+      return res.status(200).json({ message: "No posts available" });
 
     const allOrganizations = [...organizations, ...taggedOrganizations];
     const postsWithOrganizationInfo = posts.map((post) => {
@@ -122,6 +115,29 @@ exports.getAllPosts = async (req, res) => {
     res.status(500).json({ error: "Could not fetch posts" });
   }
 };
+
+// Get all posts by organization ID
+exports.getAllPostsByOrganizationId = async (req, res) => {
+  const { organizationId } = req.params;
+
+  try {
+    const posts = await Post.find({ organizationId });
+
+    if (!posts.length)
+      return res.status(200).json({ message: "No posts available" });
+
+    // Map all the organization info to each post
+    const organization = await Organization.findById(organizationId);
+    const postsWithOrganizationInfo = posts.map((post) => {
+      return { ...post._doc, organization };
+    });
+
+    res.status(200).json(postsWithOrganizationInfo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not fetch posts" });
+  }
+}
 
 // Get a post by ID
 exports.getPostById = async (req, res) => {

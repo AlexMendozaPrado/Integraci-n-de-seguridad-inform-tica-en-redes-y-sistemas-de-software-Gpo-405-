@@ -6,10 +6,11 @@ import SwiftyJSON
 class RegistrationViewModel: ObservableObject {
     @AppStorage("token") var token: String = ""
     @Published var email = ""
+    @Published var phonenumber = ""
     @Published var password = ""
     @Published var fullname = ""
     @Published var username = ""
-    @Published var isAuthenticating = true
+    @Published var isAuthenticating = false
     @Published var showAlert: Bool = false
     @Published var tags = [Tag]()
     
@@ -20,6 +21,7 @@ class RegistrationViewModel: ObservableObject {
     func createUser() {
         
     }
+    
     func fetchTags() throws {
         var newHeaders = mongoHeaders
         newHeaders["Authorization"] = "Bearer \(token)"

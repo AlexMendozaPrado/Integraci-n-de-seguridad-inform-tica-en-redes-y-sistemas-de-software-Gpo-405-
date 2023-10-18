@@ -13,19 +13,34 @@
  *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/models/Post'
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /posts/organization/{organizationId}:
+ *   get:
+ *     summary: Get all posts by organization ID
+ *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *      - name: limit
- *        in: query
- *        description: Number of posts to return
- *        schema:
- *        type: integer
- *        default: 5
- *      - name: page
- *        in: query
- *        description: Page number
- *        schema:
- *        type: integer
- *        default: 1
+ *       - name: organizationId
+ *         in: path
+ *         required: true
+ *         description: ID of the post to retrieve
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successful response
@@ -181,6 +196,13 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   postController.getAllPosts
+);
+
+// Get all posts by organization ID
+router.get(
+  "/organization/:organizationId",
+  passport.authenticate("jwt", { session: false }),
+  postController.getAllPostsByOrganizationId
 );
 
 // Get a post by ID

@@ -51,6 +51,8 @@
 		3D0AFEE82AD8AC1B0053D768 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3D0AFEE72AD8AC1B0053D768 /* Kingfisher */; };
 		3D0AFEEB2AD8AC280053D768 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3D0AFEEA2AD8AC280053D768 /* Alamofire */; };
 		3D0AFEEE2AD8AC350053D768 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3D0AFEED2AD8AC350053D768 /* SwiftyJSON */; };
+		3D6EBAC82ADF8D45005310F6 /* OrganizationPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6EBAC72ADF8D45005310F6 /* OrganizationPostView.swift */; };
+		3D6EBACA2ADF92CE005310F6 /* OrganizationInformationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6EBAC92ADF92CE005310F6 /* OrganizationInformationCard.swift */; };
 		3D8BF5772AC2530500269CB2 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8BF5762AC2530500269CB2 /* Post.swift */; };
 		3DAB7F402AC6405A00702324 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB7F3F2AC6405A00702324 /* LoginInfo.swift */; };
 		3DAB7F442AC68A7600702324 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB7F432AC68A7600702324 /* Favorite.swift */; };
@@ -79,6 +81,10 @@
 		3DF138512AD70E4E005AB0E5 /* OrganizationFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF138502AD70E4E005AB0E5 /* OrganizationFiles.swift */; };
 		3DF138542AD71363005AB0E5 /* FileRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF138532AD71363005AB0E5 /* FileRowView.swift */; };
 		3DF138572AD72461005AB0E5 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF138562AD72461005AB0E5 /* BannerView.swift */; };
+		3DF64D2C2ADFA2610067FB87 /* SelectedExploreViewEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF64D2B2ADFA2610067FB87 /* SelectedExploreViewEnum.swift */; };
+		3DF64D2E2ADFACFC0067FB87 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF64D2D2ADFACFC0067FB87 /* LocationManager.swift */; };
+		3DF64D332ADFB2870067FB87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF64D322ADFB2870067FB87 /* CoreLocation.framework */; };
+		3DF70AE42ADF6CBE0064E356 /* LocationManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF70AE32ADF6CBE0064E356 /* LocationManagerViewModel.swift */; };
 		3DFE52CE2AD8E21300FE7FF9 /* PostReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE52CD2AD8E21300FE7FF9 /* PostReply.swift */; };
 		FB3CA9EE2ACB9B0000FD69BA /* VideoViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3CA9ED2ACB9B0000FD69BA /* VideoViewerView.swift */; };
 		FB3CA9F02ACF835500FD69BA /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3CA9EF2ACF835500FD69BA /* BackgroundView.swift */; };
@@ -127,6 +133,8 @@
 		2B56165F2A61012F006B80D5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		2B66B4872A6AFAB000820908 /* UserContentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListViewModel.swift; sourceTree = "<group>"; };
 		2BACD4B12A83D98D00452A2D /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
+		3D6EBAC72ADF8D45005310F6 /* OrganizationPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationPostView.swift; sourceTree = "<group>"; };
+		3D6EBAC92ADF92CE005310F6 /* OrganizationInformationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationInformationCard.swift; sourceTree = "<group>"; };
 		3D8BF5762AC2530500269CB2 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		3DAB7F3F2AC6405A00702324 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfo.swift; sourceTree = "<group>"; };
 		3DAB7F432AC68A7600702324 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
@@ -154,6 +162,10 @@
 		3DF138502AD70E4E005AB0E5 /* OrganizationFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationFiles.swift; sourceTree = "<group>"; };
 		3DF138532AD71363005AB0E5 /* FileRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRowView.swift; sourceTree = "<group>"; };
 		3DF138562AD72461005AB0E5 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		3DF64D2B2ADFA2610067FB87 /* SelectedExploreViewEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedExploreViewEnum.swift; sourceTree = "<group>"; };
+		3DF64D2D2ADFACFC0067FB87 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		3DF64D322ADFB2870067FB87 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3DF70AE32ADF6CBE0064E356 /* LocationManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerViewModel.swift; sourceTree = "<group>"; };
 		3DFE52CD2AD8E21300FE7FF9 /* PostReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReply.swift; sourceTree = "<group>"; };
 		FB3CA9ED2ACB9B0000FD69BA /* VideoViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewerView.swift; sourceTree = "<group>"; };
 		FB3CA9EF2ACF835500FD69BA /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -165,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D0AFEEE2AD8AC350053D768 /* SwiftyJSON in Frameworks */,
+				3DF64D332ADFB2870067FB87 /* CoreLocation.framework in Frameworks */,
 				3D0AFEE82AD8AC1B0053D768 /* Kingfisher in Frameworks */,
 				3DE4854A2AD9FCCE008B40FD /* JWTDecode in Frameworks */,
 				3D0AFEEB2AD8AC280053D768 /* Alamofire in Frameworks */,
@@ -179,6 +192,7 @@
 			children = (
 				2B4620DE2A5F5FFB00D4482C /* SocialConnect */,
 				2B4620DD2A5F5FFB00D4482C /* Products */,
+				3DF64D312ADFB2870067FB87 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -233,6 +247,7 @@
 				3DBEF00D2AD8BEAB00415E01 /* RegisterOrgInfo.swift */,
 				3DFE52CD2AD8E21300FE7FF9 /* PostReply.swift */,
 				3DE4854B2AD9FFEC008B40FD /* Role.swift */,
+				3DF64D2B2ADFA2610067FB87 /* SelectedExploreViewEnum.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -303,6 +318,7 @@
 		2B4621012A5F6B7900D4482C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3DF70AE22ADF6CAA0064E356 /* Location */,
 				3DBEF0142AD8D25600415E01 /* Ui */,
 				FB3CA9EB2ACB9ADF00FD69BA /* VideoViewer */,
 				3DF138552AD72455005AB0E5 /* Banner */,
@@ -335,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				2B556E0A2A67074300727069 /* ExploreViewModel.swift */,
+				3DF64D2D2ADFACFC0067FB87 /* LocationManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -736,6 +753,8 @@
 			isa = PBXGroup;
 			children = (
 				3DBD17472AC35E9D0021CA6B /* OrganizationProfileView.swift */,
+				3D6EBAC72ADF8D45005310F6 /* OrganizationPostView.swift */,
+				3D6EBAC92ADF92CE005310F6 /* OrganizationInformationCard.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -794,6 +813,22 @@
 				3DF138562AD72461005AB0E5 /* BannerView.swift */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		3DF64D312ADFB2870067FB87 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DF64D322ADFB2870067FB87 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3DF70AE22ADF6CAA0064E356 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				3DF70AE32ADF6CBE0064E356 /* LocationManagerViewModel.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		FB3CA9EB2ACB9ADF00FD69BA /* VideoViewer */ = {
@@ -897,6 +932,7 @@
 				3DAB7F4A2ACE78E200702324 /* PostCell.swift in Sources */,
 				2B5481BA2A64B8B7003058C4 /* RegistrationViewModel.swift in Sources */,
 				2B4620E22A5F5FFB00D4482C /* ContentView.swift in Sources */,
+				3D6EBACA2ADF92CE005310F6 /* OrganizationInformationCard.swift in Sources */,
 				3DBD173B2AC34DFD0021CA6B /* Organization.swift in Sources */,
 				2B556E2B2A68D63900727069 /* PostDetailsViewModel.swift in Sources */,
 				2B556E0B2A67074300727069 /* ExploreViewModel.swift in Sources */,
@@ -905,12 +941,14 @@
 				3DBEF0102AD8C0AD00415E01 /* ContentActionButtonView.swift in Sources */,
 				3DAB7F512ACF660700702324 /* PostActionSheetOptions.swift in Sources */,
 				2B5616592A610077006B80D5 /* LoginView.swift in Sources */,
+				3DF64D2C2ADFA2610067FB87 /* SelectedExploreViewEnum.swift in Sources */,
 				2B4620F72A5F611000D4482C /* FeedView.swift in Sources */,
 				2B46210B2A5F7D5A00D4482C /* ExploreView.swift in Sources */,
 				FB3CA9F02ACF835500FD69BA /* BackgroundView.swift in Sources */,
 				2B56164E2A60F5D2006B80D5 /* CreatePostDummyView.swift in Sources */,
 				2B556E442A69CF5800727069 /* Color.swift in Sources */,
 				3DFE52CE2AD8E21300FE7FF9 /* PostReply.swift in Sources */,
+				3DF70AE42ADF6CBE0064E356 /* LocationManagerViewModel.swift in Sources */,
 				FB3CA9EE2ACB9B0000FD69BA /* VideoViewerView.swift in Sources */,
 				3DAB7F442AC68A7600702324 /* Favorite.swift in Sources */,
 				3DBD174C2AC3737B0021CA6B /* TagView.swift in Sources */,
@@ -927,6 +965,7 @@
 				3DE485532ADA44A8008B40FD /* DateFormatter.swift in Sources */,
 				2B5616362A60CD97006B80D5 /* FavoriteView.swift in Sources */,
 				2B66B4882A6AFAB000820908 /* UserContentListViewModel.swift in Sources */,
+				3DF64D2E2ADFACFC0067FB87 /* LocationManager.swift in Sources */,
 				2B4620FB2A5F613900D4482C /* User.swift in Sources */,
 				2B56165E2A6100F4006B80D5 /* ThreadsButtonModifier.swift in Sources */,
 				2B556E392A69AC3400727069 /* UserContentListView.swift in Sources */,
@@ -959,6 +998,7 @@
 				2B556E1F2A68906D00727069 /* String.swift in Sources */,
 				2B556E122A670C1200727069 /* UserProfileViewModel.swift in Sources */,
 				2B5481CD2A660547003058C4 /* CurrentUserProfileViewModel.swift in Sources */,
+				3D6EBAC82ADF8D45005310F6 /* OrganizationPostView.swift in Sources */,
 				3D8BF5772AC2530500269CB2 /* Post.swift in Sources */,
 				2B4620E02A5F5FFB00D4482C /* ThreadsApp.swift in Sources */,
 				3DBD17482AC35E9D0021CA6B /* OrganizationProfileView.swift in Sources */,
@@ -1096,6 +1136,9 @@
 				DEVELOPMENT_TEAM = 9QNARUMXB4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1128,6 +1171,9 @@
 				DEVELOPMENT_TEAM = 9QNARUMXB4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

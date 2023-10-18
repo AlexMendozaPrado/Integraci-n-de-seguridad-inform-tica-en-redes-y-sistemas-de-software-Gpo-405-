@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const Organization = require("../models/organizationModel");
+const Favorite = require("../models/favoriteModel");
 const { hashPassword } = require("../services/passwordService");
 
 exports.createOrganization = async (req, res) => {
@@ -70,23 +71,31 @@ exports.createOrganization = async (req, res) => {
 // Get all organizations
 exports.getAllOrganizations = async (req, res) => {
     try {
-        // filters
         const { tags, useUserTags } = req.query;
 
-        if (useUserTags === true || useUserTags === "true") {
-            const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user._id);
+        const favorites = await Favorite.find({ userId: user._id });
+        const favoriteIds = favorites.map(favorite => favorite.organizationId.toString());
+
+        if (useUserTags === true || useUserTags === "true" || useUserTags === "1" || useUserTags === 1) {
             const organizations = await Organization.find({ tags: { $in: user.tags } });
 
-            return res.status(200).json(organizations);
+            const filteredOrganizations = organizations.filter(organization => !favoriteIds.includes(organization._id.toString()));
+
+            return res.status(200).json(filteredOrganizations);
         } else {
             if (tags && tags.length > 0 && tags[0].length > 0) {
                 const organizations = await Organization.find({ tags: { $in: tags } });
 
-                return res.status(200).json(organizations);
+                const filteredOrganizations = organizations.filter(organization => !favoriteIds.includes(organization._id.toString()));
+
+                return res.status(200).json(filteredOrganizations);
             } else {
                 const organizations = await Organization.find();
 
-                return res.status(200).json(organizations);
+                const filteredOrganizations = organizations.filter(organization => !favoriteIds.includes(organization._id.toString()));
+
+                return res.status(200).json(filteredOrganizations);
             }
         }
     } catch (error) {

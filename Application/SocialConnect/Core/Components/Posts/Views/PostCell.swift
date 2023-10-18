@@ -5,32 +5,30 @@ struct PostCell: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Color("PrimaryText")
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 2)
+            VStack(alignment: .leading) {
+                Divider()
+                    .padding(.bottom)
                 
-                VStack {
-                    HStack(alignment: .top, spacing: 12) {
-                        NavigationLink(value: post.id) {
-                            CircularProfileImageView(logoUrl: post.organization.logoUrl, size: .small)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(post.title)
-                                .font(.footnote)
-                                .fontWeight(.semibold)
-                            
-                            Text(post.content)
-                                .font(.footnote)
-                                .multilineTextAlignment(.leading)
-                            
-                            // Example: Displaying creation date
-                            Text("Creado en \(post.createdAt, formatter: DateFormatter.shortDate)")
-                                .font(.footnote)
-                                .opacity(0.6)
-                        }
+                HStack(alignment: .top, spacing: 12) {
+                    NavigationLink(value: post.id) {
+                        CircularProfileImageView(logoUrl: post.organization.logoUrl, size: .small)
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(post.title)
+                            .font(.footnote)
+                            .fontWeight(.semibold)
+
+                        Text(post.content)
+                            .font(.footnote)
+                            .multilineTextAlignment(.leading)
+
+                        Text("Creado en \(DateFormatter.publicationDateFormatter.string(from: post.createdAt))")
+                            .font(.footnote)
+                            .opacity(0.6)
                     }
                 }
+                .padding(.leading)
             }
             .foregroundColor(Color.theme.primaryText)
         }
