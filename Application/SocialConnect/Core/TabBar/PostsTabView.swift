@@ -33,7 +33,7 @@ struct PostsTabView: View {
 
             FavoriteView()
                 .tabItem {
-                    Image(systemName: selectedTab == 3 ? "heart.fill" : "heart")
+                    Image(systemName: selectedTab == 3 ? "star.fill" : "star")
                     .imageScale(.large)
                     .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)
                 }

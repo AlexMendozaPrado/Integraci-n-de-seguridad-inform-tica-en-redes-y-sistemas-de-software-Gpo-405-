@@ -2,6 +2,14 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage("token") var token: String = ""
+    @AppStorage("userId") var userId: String = ""
+    @AppStorage("userEmail") var userEmail: String = ""
+    @AppStorage("userFirstName") var userFirstName: String = ""
+    @AppStorage("userLastName") var userLastName: String = ""
+    @AppStorage("userPhoneNumber") var userPhoneNumber: String = ""
+    @AppStorage("userRole") var userRole: String = ""
+    @AppStorage("userImageUrl") var userImageUrl: String = ""
+    @AppStorage("isOrganization") var isOrganization: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -17,8 +25,16 @@ struct SettingsView: View {
             VStack(alignment: .leading) {
                 Divider()
                 
-                Button("Log Out") {
+                Button("Cerrar Sesión") {
                     token = ""
+                    userId = ""
+                    userEmail = ""
+                    userFirstName = ""
+                    userLastName = ""
+                    userPhoneNumber = ""
+                    userRole = ""
+                    userImageUrl = ""
+                    isOrganization = false
                 }
                 .font(.subheadline)
                 .listRowSeparator(.hidden)
@@ -29,7 +45,7 @@ struct SettingsView: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Settings")
+        .navigationTitle("Ajustes")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

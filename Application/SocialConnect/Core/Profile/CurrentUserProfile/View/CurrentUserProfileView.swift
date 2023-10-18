@@ -20,12 +20,12 @@ struct CurrentUserProfileView: View {
         Group {
             if let didNavigate, didNavigate == true {
                 VStack {
-                    CurrentUserProfileContentView(userId: $userId, userEmail: $userEmail, userFirstName: $userFirstName, userLastName: $userLastName, userPhoneNumber: $userPhoneNumber, userRole: $userRole, userImageUrl: $userImageUrl, isOrganization: $isOrganization)
+                    CurrentUserProfileContentView()
                         .padding()
                 }
             } else {
                 NavigationStack {
-                    CurrentUserProfileContentView(userId: $userId, userEmail: $userEmail, userFirstName: $userFirstName, userLastName: $userLastName, userPhoneNumber: $userPhoneNumber, userRole: $userRole, userImageUrl: $userImageUrl, isOrganization: $isOrganization)
+                    CurrentUserProfileContentView()
                 }
             }
         }

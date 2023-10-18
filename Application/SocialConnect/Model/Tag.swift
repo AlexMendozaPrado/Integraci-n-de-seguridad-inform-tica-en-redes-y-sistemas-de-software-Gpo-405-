@@ -14,3 +14,13 @@ struct Tag: Identifiable, Hashable {
     let updatedAt: Date
     let updatedBy: String
 }
+
+extension Tag: Equatable {
+    static func == (lhs: Tag, rhs: Tag) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

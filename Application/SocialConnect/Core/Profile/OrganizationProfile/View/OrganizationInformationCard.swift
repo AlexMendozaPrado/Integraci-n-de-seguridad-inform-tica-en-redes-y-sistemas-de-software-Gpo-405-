@@ -20,7 +20,7 @@ struct OrganizationInformationCardView: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 2) {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Address:")
+                        Text("Dirección:")
                             .fontWeight(.bold)
                         Text("\(organization.address.street1), \(organization.address.city), \(organization.address.state) \(organization.address.zipCode), \(organization.address.country)")
                     }
@@ -28,7 +28,7 @@ struct OrganizationInformationCardView: View {
                     
                     if let schedule = organization.schedule {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Schedule:")
+                            Text("Horario:")
                                 .fontWeight(.bold)
                             Text(schedule)
                         }
@@ -38,10 +38,10 @@ struct OrganizationInformationCardView: View {
                 Spacer()
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Contact:")
+                    Text("Contacto:")
                         .fontWeight(.bold)
-                    Text("Phone: \(organization.contact.phoneNumber)")
-                    Text("Email: \(organization.contact.email)")
+                    Text("Teléfono: \(organization.contact.phoneNumber)")
+                    Text("Correo: \(organization.contact.email)")
                 }
             }
             .padding(12)
