@@ -12,82 +12,79 @@ struct EditProfileView: View {
     }
         
     var body: some View {
-        GeometryReader { geometry in
-            let widthAvailable = geometry.size.width
-            NavigationStack {
-                ZStack {
-                    Color(.systemGroupedBackground)
-                        .edgesIgnoringSafeArea([.bottom, .horizontal])
-                    VStack(alignment: .leading){
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Nombre")
-                                    .fontWeight(.semibold)
-                                
-                                Text(viewModel.userFirstName + " " + viewModel.userLastName)
-                            }
-                            .font(.footnote)
-                            
-                            Spacer()
-                        }
-                        
-                        Divider()
-                        
+        NavigationStack {
+            ZStack {
+                Color(.systemGroupedBackground)
+                    .edgesIgnoringSafeArea([.bottom, .horizontal])
+                VStack(alignment: .leading){
+                    HStack {
                         VStack(alignment: .leading) {
-                            Text("Tags de Interes ")
+                            Text("Nombre")
                                 .fontWeight(.semibold)
                             
-                            ScrollView(.vertical, showsIndicators: false) {
-                                VStack(spacing: 10) {
-                                    ForEach(viewModel.tags, id: \.self) { tag in
-                                        TagView(tag: tag, isSelected: selectedTags.contains(tag))
-                                            .onTapGesture {
-                                                var newSelectedTags = selectedTags
-                                                if newSelectedTags.contains(tag) {
-                                                    newSelectedTags.remove(tag)
-                                                } else {
-                                                    newSelectedTags.insert(tag)
-                                                }
-                                                selectedTags = newSelectedTags
-                                            }
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                            .id(UUID())
+                            Text(viewModel.userFirstName + " " + viewModel.userLastName)
                         }
                         .font(.footnote)
+                        
+                        Spacer()
                     }
                     
-                    .navigationTitle("Editar Perfil")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("Cancelar") {
-                                dismiss()
-                            }
-                            .font(.subheadline)
-                            .foregroundColor(Color.theme.primaryText)
-                        }
+                    Divider()
+                    
+                    VStack(alignment: .leading) {
+                        Text("Tags de Interes ")
+                            .fontWeight(.semibold)
                         
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Listo") {
-                                Task {
-                                    await updateUserProfile()
-                                    dismiss()
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(spacing: 10) {
+                                ForEach(viewModel.tags, id: \.self) { tag in
+                                    TagView(tag: tag, isSelected: selectedTags.contains(tag))
+                                        .onTapGesture {
+                                            var newSelectedTags = selectedTags
+                                            if newSelectedTags.contains(tag) {
+                                                newSelectedTags.remove(tag)
+                                            } else {
+                                                newSelectedTags.insert(tag)
+                                            }
+                                            selectedTags = newSelectedTags
+                                        }
                                 }
                             }
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
+                            .padding(.horizontal)
                         }
+                        .id(UUID())
                     }
-                    .padding()
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color(.systemGray4), lineWidth: 1)
-                    }
-                    .background(Color.theme.primaryBackground)
+                    .font(.footnote)
                 }
+                
+                .navigationTitle("Editar Perfil")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancelar") {
+                            dismiss()
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(Color.theme.primaryText)
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Listo") {
+                            Task {
+                                await updateUserProfile()
+                                dismiss()
+                            }
+                        }
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                    }
+                }
+                .padding()
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(.systemGray4), lineWidth: 1)
+                }
+                .background(Color.theme.primaryBackground)
             }
             .onAppear {
                 if !viewModel.currentUserTags.isEmpty {
