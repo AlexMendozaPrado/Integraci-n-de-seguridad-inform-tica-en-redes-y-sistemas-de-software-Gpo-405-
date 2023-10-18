@@ -3,6 +3,7 @@ const Post = require("../models/postModel");
 const Favorite = require("../models/favoriteModel");
 const Organization = require("../models/organizationModel");
 const User = require("../models/userModel");
+const { default: mongoose } = require("mongoose");
 
 exports.createPost = async (req, res) => {
   try {
@@ -20,12 +21,12 @@ exports.createPost = async (req, res) => {
       return res.status(404).json({ error: "Organization not found" });
     }
 
-    const { title, postType, content, videoUrl } = req.body;
+    const { title, content, videoUrl } = req.body;
 
     const newPost = new Post({
       organizationId: organizationFound._id,
       title,
-      postType,
+      postType: new mongoose.Types.ObjectId("6510f13487413d15a54d7a65"),
       content,
       videoUrl,
       createdAt: new Date(),
