@@ -39,5 +39,5 @@ Clona el repositorio en tu máquina local.
 Instala las dependencias necesarias usando npm install (para el backend) y, para el frontend, asegúrate de tener las últimas SDKs y herramientas de desarrollo de Apple.
 Asegúrate de configurar cualquier clave o token necesario (por ejemplo, para autenticación o servicios externos).
 Ejecuta el servidor backend usando npm start y, para el frontend, abre el proyecto en Xcode y ejecuta la aplicación en un simulador o dispositivo.
-Contribuir
+ # Contribuir
 Si deseas contribuir al proyecto, crea una bifurcación del repositorio principal, realiza tus cambios y envía una solicitud de extracción para revisión.
