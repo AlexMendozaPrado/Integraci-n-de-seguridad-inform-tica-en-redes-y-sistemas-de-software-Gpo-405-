@@ -6,7 +6,7 @@ Desarrollada una aplicación para iOS 17 utilizando SwiftUI y Node, Express,Swag
 # Estructura de la Aplicación
 iOS (SwiftUI):
 
- Vistas:
+  # Vistas:
 Vistas de autenticación y registro (Login, Registro, Registro de Organizaciones).
 Vistas de exploración, perfil y favoritos.
 Vistas de perfil de usuario y edición de perfil.
@@ -17,7 +17,7 @@ Servicios:
 Gestión de la ubicación del usuario.
 Backend (Node & Express):
 
-Modelos:
+# Modelos:
 Modelos para usuarios, roles, organizaciones, publicaciones, tipos de publicaciones, etiquetas, reseñas, archivos y favoritos.
 Controladores:
 Controladores para gestionar autenticación, usuarios, roles, organizaciones, publicaciones, tipos de publicaciones, etiquetas, reseñas, archivos y favoritos.
