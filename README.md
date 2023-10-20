@@ -41,3 +41,8 @@ Asegúrate de configurar cualquier clave o token necesario (por ejemplo, para au
 Ejecuta el servidor backend usando npm start y, para el frontend, abre el proyecto en Xcode y ejecuta la aplicación en un simulador o dispositivo.
  # Contribuir
 Si deseas contribuir al proyecto, crea una bifurcación del repositorio principal, realiza tus cambios y envía una solicitud de extracción para revisión.
+
+
+# Créditos
+Contribuyentes: Alejandro Mendoza Prado,Patricio Villarreal Welsh,David Julio Faudoa Gonzalez y Cesar Hernandez 
+Organizaciones Asociadas: Instituto Tecnologico y  De Esutdios Superiores de MonterreyYco y Fundacion Frisa 
