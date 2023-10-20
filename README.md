@@ -23,11 +23,11 @@ Controladores:
 Controladores para gestionar autenticación, usuarios, roles, organizaciones, publicaciones, tipos de publicaciones, etiquetas, reseñas, archivos y favoritos.
 Servicios:
 Servicio para gestionar el cifrado de contraseñas.
-Tecnologías Utilizadas
-Frontend:
+# Tecnologías Utilizadas
+# Frontend:
 SwiftUI: Framework de interfaz de usuario declarativo de Apple.
 Core ML: Framework de aprendizaje automático de Apple.
-Backend:
+# Backend:
 Node.js: Entorno de tiempo de ejecución de JavaScript para el servidor.
 Express.js: Framework de servidor web para Node.js.
 Mongoose: ORM para MongoDB y Node.js.
